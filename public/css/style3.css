@@ -1,0 +1,14 @@
+body {
+  background-image: url(../img/bgg1.jpg);
+  background-size: fill;
+}
+
+.form {
+  background:white;
+  padding: 45px;
+  margin: 40px auto;
+  width: 90%;
+  max-height: 90%;
+  border-radius: 5px;
+  box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.5);
+}
