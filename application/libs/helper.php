@@ -58,5 +58,22 @@ class Helper
             die();
         }
     }
+    
+    ///TO DO: Implement authorization, move to a separate class if necessary
+    static public function authorize(){
+        if(!isset($_SESSION['user_type'])) {
+            header('location: ' . URL);
+            die();
+        }
+        else{
+            //check authorization
+            //Super Admin -> user creation, logs
+            //Admin -> Menus, Orders, Ingredients, Tables, Allergens, Categories, Reports
+            //Waiter,Cashier -> Menus(View Only), Orders (note: would differ on notif)
+            //Kitchen -> Orders, Inventory status (based on ingredients)
+        }
+    }
+
+    ///TO DO: Create enum of user types
 
 }
