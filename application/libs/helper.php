@@ -52,4 +52,11 @@ class Helper
         return $raw_sql;
     }
 
+    static public function authenticate(){
+        if(!isset($_SESSION['username'])) {
+            header('location: ' . URL);
+            die();
+        }
+    }
+
 }

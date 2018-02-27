@@ -2,6 +2,7 @@
     <div class="form">
             <div id="login">   
             <h1>Welcome!</h1>  
+            <label class="text-danger"><?php if (isset($_SESSION["login_error"])) echo $_SESSION["login_error"]; ?></label>
             <form action="<?php echo URL; ?>login/userlogin" method="post" autocomplete="off">       
                 <div class="field-wrap1">
                 <label class="login">

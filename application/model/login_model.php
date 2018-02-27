@@ -22,13 +22,11 @@ class Model
     {
         $sql = "SELECT id, username, password, type FROM users WHERE username= :username LIMIT 1";
         $query = $this->db->prepare($sql);
-        $parameters = array(':username' => '$username');
+        $parameters = array(':username' => $username);
 
         // useful for debugging: you can see the SQL behind above construction by using:
         // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
-
         $query->execute($parameters);
-
         // fetch() is the PDO method that get exactly one result
         return $query->fetch();
     }

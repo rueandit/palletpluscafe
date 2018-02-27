@@ -25,13 +25,30 @@ class Login extends Controller
     public function userlogin()
     {
         /// if we have an id of a menu that should be edited
-        // if (isset($_POST["submit_user_login"])) {
-        //     $verifyUser = $this->model->getUser($_POST["username"]);
-        //     $verifyUser->
-        //         if($verifyUser->username == $_POST["username"] && $verifyUser->password == $_POST["password"]){
-        //             header('location: ' . URL . 'menus/index');
-        //         }
-        // }
-        header('location: ' . URL . 'menus/index');
+        $_SESSION["login_error"] = ""; ///TO DO: Fix/reset login error display
+        if (isset($_POST["submit_user_login"])) {
+            $verifyUser = $this->model->getUser($_POST["username"]);
+            if($verifyUser){
+                if($verifyUser->username == $_POST["username"] && $verifyUser->password == $_POST["password"]){
+                    $_SESSION["username"] = $verifyUser->username;
+                    $_SESSION["user_type"] = $verifyUser->type;
+                    header('location: ' . URL . 'menus/index');
+                }
+                else{
+                    $_SESSION["login_error"] = "Invalid Password";
+                    header('location: ' . URL);
+                }
+            }
+            else{
+                $_SESSION["login_error"] = "Invalid Username";
+                header('location: ' . URL);
+            }
+        }
+        //header('location: ' . URL . 'menus/index');
+    }
+
+    public function userlogout(){
+        session_destroy();
+        header('location: ' . URL);
     }
 }
