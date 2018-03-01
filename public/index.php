@@ -20,6 +20,7 @@ require APP . 'config/config.php';
 // FOR DEVELOPMENT: this loads PDO-debug, a simple function that shows the SQL query (when using PDO).
 
 require APP . 'libs/helper.php';
+require APP . 'libs/enum.php';
 
 // load application class
 require APP . 'core/application.php';

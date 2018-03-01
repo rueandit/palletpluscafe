@@ -54,26 +54,48 @@ class Helper
 
     static public function authenticate(){
         if(!isset($_SESSION['username'])) {
-            header('location: ' . URL);
+            header('location: ' . URL. 'problem');
             die();
         }
     }
     
-    ///TO DO: Implement authorization, move to a separate class if necessary
-    static public function authorize(){
+    ///TO DO: refactor:
+    ///         move to a separate class if necessary
+    ///         evaluate the need for creating enum or storing permissions to DB
+    ///         validation is at page level, buttons to initialize functionality will still show (i.e. add button)
+    // Super Admin -> user creation, logs
+    // Admin -> Menus, Orders, Ingredients, Tables, Allergens, Categories, Reports
+    // Waiter,Cashier -> Menus(View Only), Orders (note: would differ on notif)
+    // Kitchen -> Orders, Inventory status (based on ingredients)
+    static public function authorize($page){
+        $isAuthorized = true;
+        
         if(!isset($_SESSION['user_type'])) {
-            header('location: ' . URL);
-            die();
+            $isAuthorized = false;
         }
         else{
-            //check authorization
-            //Super Admin -> user creation, logs
-            //Admin -> Menus, Orders, Ingredients, Tables, Allergens, Categories, Reports
-            //Waiter,Cashier -> Menus(View Only), Orders (note: would differ on notif)
-            //Kitchen -> Orders, Inventory status (based on ingredients)
+            $type = $_SESSION['user_type'];
+            switch($page){
+                case "menus/index" :
+                    if ($type == UserType::kitchen){
+                        $isAuthorized = false;
+                    }
+                    break;
+                case "menus/addMenu" :
+                case "menus/submitMenu" :
+                case "menus/deleteMenu" :
+                case "menus/editMenu" :
+                case "menus/updateMenu" :
+                    if ($type == UserType::waiter || $type == UserType::cashier || $type == UserType::kitchen){
+                        $isAuthorized = false;
+                    }
+                    break;
+            }
+        }
+
+        if (!$isAuthorized){
+            header('location: ' . URL . 'problem');
+            die();
         }
     }
-
-    ///TO DO: Create enum of user types
-
 }

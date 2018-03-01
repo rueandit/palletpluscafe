@@ -18,6 +18,7 @@ class Menus extends Controller
     public function index()
     {
         Helper::authenticate();
+        Helper::authorize("menus/index");
         if (isset($_POST["submit_search_menu"])) {
             $menuName = $_POST["menuName"];
             $menuDescription = $_POST["menuDescription"];  
@@ -79,6 +80,7 @@ class Menus extends Controller
     public function addMenu()
     {
         Helper::authenticate();
+        Helper::authorize("menus/addMenu");
         $categories = $this->model->getAllCategories();
         $allergens = $this->model->getAllAllergens();
 
@@ -100,6 +102,7 @@ class Menus extends Controller
     public function submitMenu()
     {
         Helper::authenticate();
+        Helper::authorize("menus/submitMenu");
         // if we have POST data to create a new menu entry
         if (isset($_POST["submit_add_menu"])) {
             // do addMenu() in model/model.php
@@ -132,6 +135,7 @@ class Menus extends Controller
     public function deleteMenu($menu_id)
     {
         Helper::authenticate();
+        Helper::authorize("menus/deleteMenu");
         // if we have an id of a menu that should be deleted
         if (isset($menu_id)) {
             // do deleteMenu() in model/model.php
@@ -150,6 +154,7 @@ class Menus extends Controller
     public function editMenu($menu_id)
     {
         Helper::authenticate();
+        Helper::authorize("menus/editMenu");
         // if we have an id of a menu that should be edited
         if (isset($menu_id)) {
             // do getMenu() in model/model.php
@@ -183,6 +188,7 @@ class Menus extends Controller
     public function updateMenu()
     {
         Helper::authenticate();
+        Helper::authorize("menus/updateMenu");
         // if we have POST data to create a new menu entry
         if (isset($_POST["submit_update_menu"])) {
             // do updateMenu() from model/model.php
@@ -212,6 +218,7 @@ class Menus extends Controller
     public function ajaxGetStats()
     {
         Helper::authenticate();
+        Helper::authorize("menus/ajaxGetStats");
         $amount_of_menus = $this->model->getAmountOfMenus();
 
         // simply echo out something. A supersimple API would be possible by echoing JSON here
