@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 // TODO get rid of this and work with namespaces + composer's autoloader
 
 // set a constant that holds the project's folder path, like "/var/www/".
@@ -20,6 +20,7 @@ require APP . 'config/config.php';
 // FOR DEVELOPMENT: this loads PDO-debug, a simple function that shows the SQL query (when using PDO).
 
 require APP . 'libs/helper.php';
+require APP . 'libs/enum.php';
 
 // load application class
 require APP . 'core/application.php';

@@ -25,7 +25,7 @@
     }
     }
         
-    function myFunction1(x) {
+    function toggleSideNav(x) {
         x.classList.toggle("change");
         var z = document.getElementById("mySidenav");
         
