@@ -10,6 +10,7 @@ html {
 
 body {
   font-family: 'Titillium Web', sans-serif;
+  font-size: 13px;
 }
 
 /* Anchors */
@@ -79,11 +80,11 @@ span {
     font-weight: bold;
 }
 
-p {
+/* p {
     text-align: center;
     color: #ffffff;
     margin: 0px 0px 50px 0px;
-}
+} */
 
 div.info {
     color: pink;
@@ -305,7 +306,7 @@ img {
 
 #navbar {
   overflow: hidden;
-  background-color: #db3c1c;
+  background-color: #000;
   padding-left: 8px;
   z-index: 999;
 }
@@ -365,7 +366,7 @@ img {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     white-space: nowrap;
-    font-size: 20px;
+    font-size: 16px;
     color: white;
     display: block;
     transition: 0.3s;
@@ -418,14 +419,14 @@ img {
 
 .list-header {
   display: flex;
-  background: #db3c1c;
-  padding: 16px;
+  background: #48261c;
+  padding: 8px;
   flex: none;
   margin-top: 40px;
 }
 
 .title {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 400;
   flex-grow: 1;
   color: #ffffff;
@@ -441,29 +442,28 @@ img {
 }
 
 .search-input {
-  height: 32px;
+  height: 26px;
   border-top: 1px solid #2d2d2d;
   border-bottom: 1px solid #2d2d2d;
   border-left: 1px solid #2d2d2d;
   border-right: 1px solid #2d2d2d;
-  width: 300px;
 }
 
 .icon-button {
-  width: 32px !important;
-  height: 32px;
+  width: 26px !important;
+  height: 26px;
   color: #2d2d2d;
   background: #E0E0E0 100px !important;
   font-size: 14px;
-  text-transform: uppercase;
   border: 1px solid #2d2d2d;
 }
 
 .primary-button, .secondary-button {
   min-width: 100px;
-  height: 32px;
-  font-size: 14px;
+  height: 26px;
+  font-size: 13px;
   text-transform: capitalize;
+  margin-right: 8px;
 }
 
 .primary-button {
@@ -509,7 +509,7 @@ img {
   
 }
 
-div.filters {
+div.filters, div.add-edit {
   padding: 16px;
   border: 1px solid #dddddd;
   background: #dddddd;
@@ -517,6 +517,7 @@ div.filters {
 
 .filter-title{
   color: #158006;
+  font-size: 16px;
 }
 
 .input-item{
@@ -551,25 +552,31 @@ table {
 }
 
 thead {
-  background: #f24a29;
+  background: #48261c;
   color: #ffffff;
-  font-weight: bold;
-  
+  font-weight: bold; 
 }
 
 td, th {
     border: 1px solid #dddddd;
     text-align: center;
-    padding: 8px;
 }
 
+th {
+  padding: 8px;
+  font-size: 12px;
+}
+
+td {
+  padding: 4px;
+  font-size: 11px;
+}
 tr:nth-child(even) {
     background-color: #dddddd;
 }
 
 td.menu-thumbnail{
   text-align: center;
-  padding: 4px 0;
   width: 80px;
 }
 
@@ -586,3 +593,69 @@ img.menu-thumbnail {
   font-size: 24px;
   margin: 0 8px;
 }
+
+.error-container {
+  margin: 40px auto;
+  max-width: 600px;
+  border: #4d4d4d;
+  background: #dddddd;
+  color: #2d2d2d !important;
+  padding: 16px;
+
+}
+
+.display-icon {
+  margin-right: 4px;
+}
+
+@media screen and (max-width: 320px){
+  .td-xsmall{
+    display: none;
+  }
+  img.menu-thumbnail{
+    width: 32px;
+    height: 32px;
+  }
+  .primary-actions, .search-bar{
+    display: block;
+  }
+  .primary-button, .secondary-button {
+    margin-top: 4px;
+    margin-right: 0;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 600px){
+  .td-small{
+    display: none;
+  }
+  td.menu-thumbnail{
+    width: 32px;
+  }
+}
+
+@media screen and (max-width: 800px){
+  .td-medium{
+    display: none;
+  }
+}
+
+@media screen and (max-width: 400px){
+  .list-header{
+    display: block;
+  }
+  .primary-actions, .search-bar{
+    display: block;
+  }
+  .primary-button, .secondary-button {
+    margin-top: 4px;
+    margin-right: 0;
+    width: 100%;
+  }
+}
+
+.showFilter {
+  display: none;
+}
+
