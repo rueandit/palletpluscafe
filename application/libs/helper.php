@@ -30,7 +30,11 @@ class Helper
 
             // bring parameter into human-readable format
             if (is_string($value)) {
-                $values[$key] = "'" . $value . "'";
+                if (substr($key, 1,2) == 'nq'){
+                    $values[$key] = $value ;
+                }else{
+                    $values[$key] = "'" . $value . "'";
+                }
             } elseif (is_array($value)) {
                 $values[$key] = implode(',', $value);
             } elseif (is_null($value)) {
