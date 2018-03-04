@@ -114,7 +114,6 @@ class Helper
         }
     }
 
-    /// TO DO: default redirect based on user type
     static public function sideBarListAuth(){
         if(isset($_SESSION['user_type'])) {
             switch($_SESSION['user_type']){
@@ -145,7 +144,8 @@ class Helper
                     <a href="'. URL . 'orders"><i class="fas fa-clipboard-list display-icon"></i> Orders</a>';
                     break;
                 case UserType::kitchen:
-                    echo '<a href="'. URL . 'menus"><i class="fas fa-utensils display-icon"></i> Menu</a>
+                    echo '<a href="'. URL . 'orders"><i class="fas fa-clipboard-list display-icon"></i> Orders</a>
+                    <a href="'. URL . 'ingredients"><i class="fas fa-shopping-bag display-icon"></i> Ingredients</a>
                     <a href="'. URL . 'menuIngredient"><i class="fas fa-shopping-bag display-icon"></i> Menu Ingredients</a>';
                     break;
                 default:
@@ -153,5 +153,22 @@ class Helper
                     break;
             }
         }
+    }
+    static public function getLandingPage(){
+        switch ($_SESSION["user_type"]){
+            case UserType::superAdmin:
+            case UserType::admin:
+            case UserType::waiter:
+            case UserType::cashier:
+                return 'menus';
+                break;
+            case UserType::kitchen:
+                return 'orders';
+                break;
+            default:
+                return 'problems';
+                break;
+        }
+        return 'problems';
     }
 }
