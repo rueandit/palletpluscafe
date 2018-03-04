@@ -98,4 +98,54 @@ class Helper
             die();
         }
     }
+
+    static public function showNotificationIcon(){
+        if(isset($_SESSION['user_type'])) {
+            if($_SESSION['user_type'] == UserType::waiter || $_SESSION['user_type'] == UserType::kitchen){
+                echo '<div class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="label label-pill label-danger count" style="border-radius:10px;"></span> <span class="glyphicon glyphicon-bell" style="font-size:18px;"></span></a>
+                            <ul class="dropdown-menu"></ul>
+                        </div>';
+            }
+        }
+    }
+
+    /// TO DO: default redirect based on user type
+    static public function sideBarListAuth(){
+        if(isset($_SESSION['user_type'])) {
+            switch($_SESSION['user_type']){
+                case UserType::superAdmin:
+                    echo '<a href="#">Accounts</a>
+                    <a href="'. URL . 'menus">Menu</a>
+                    <a href="#">Tables</a>
+                    <a href="#">Orders</a>
+                    <a href="#">Ingredients</a>
+                    <a href="#">Allergens</a>
+                    <a href="#">Category</a>
+                    <a href="#">Reports</a>';
+                    break;
+                case UserType::admin:
+                    echo '<a href="'. URL . 'menus">Menu</a>
+                    <a href="#">Tables</a>
+                    <a href="#">Orders</a>
+                    <a href="#">Ingredients</a>
+                    <a href="#">Allergens</a>
+                    <a href="#">Category</a>
+                    <a href="#">Reports</a>';
+                    break;
+                case UserType::waiter:
+                case UserType::cashier:
+                    echo '<a href="'. URL . 'menus">Menu</a>
+                    <a href="#">Orders</a>';
+                    break;
+                case UserType::kitchen:
+                    echo '<a href="'. URL . 'menus">Menu</a>
+                    <a href="#">Ingredients</a>';
+                    break;
+                default:
+                    echo 'No Access';
+                    break;
+            }
+        }
+    }
 }
