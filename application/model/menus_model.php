@@ -26,7 +26,7 @@ class Model
                 menuStatus,
                 price,
                 rating,
-                menu.archived,
+                CASE WHEN menu.archived = 0 THEN 'False' ELSE 'True' END AS archived,
                 menu_category.description as category,
                 subCategory,
                 menu_allergen.description as allergen
@@ -48,8 +48,19 @@ class Model
     /**
      * Get all menus from database based on filters
      */
-    public function getFilteredMenus($menuName, $menuDescription, $menuStatus, $price, $rating, $archived, $category, $subCategory, $allergen)
+    public function getFilteredMenus($menuName, $menuDescription, $menuStatus, $price, $rating, $archived, $categoryId, $subCategory, $allergenId)
     {
+        // set to null if empty and trim single quote for wild card search
+        if($menuName == '') { $nqmenuName = 'NULL'; $menuName = 'NULL'; } else {$nqmenuName = $menuName; $menuName = "'".$menuName."'"; }
+        if($menuDescription == '') { $nqmenuDescription = 'NULL'; $menuDescription = 'NULL'; } else {$nqmenuDescription = $menuDescription; $menuDescription = "'".$menuDescription."'";}
+        if($menuStatus == '') { $menuStatus = 'NULL'; } else { $menuStatus = "'".$menuStatus."'"; }
+        if($price == '') { $price = 'NULL'; } else { $price = "'".$price."'"; }
+        if($rating == '') { $rating = 'NULL'; } else { $rating = "'".$rating."'"; }
+        if($archived == '') { $archived = 'NULL'; } else { $archived = "'".$archived."'"; }
+        if($categoryId == '') { $categoryId = 'NULL'; } else { $categoryId = "'".$categoryId."'"; }
+        if($subCategory == '') { $subCategory = 'NULL'; } else { $subCategory = "'".$subCategory."'"; }
+        if($allergenId == '') { $allergenId = 'NULL'; } else { $allergenId = "'".$allergenId."'"; }
+
         $sql = "SELECT 
                 menu.id,
                 menuName,
@@ -57,7 +68,7 @@ class Model
                 menuStatus,
                 price,
                 rating,
-                menu.archived,
+                CASE WHEN menu.archived = 0 THEN 'False' ELSE 'True' END AS archived,
                 menu_category.description as category,
                 subCategory,
                 menu_allergen.description as allergen
@@ -66,27 +77,20 @@ class Model
                 ON menu_category.id = menu.categoryId
                 INNER JOIN menu_allergen
                 ON menu_allergen.id = menu.allergenId
-                WHERE (:menuName IS NULL OR menuName LIKE '%:menuName%')
-                    AND (:menuDescription IS NULL OR menuDescription LIKE '%:menuDescription%')
-                    AND (:menuStatus IS NULL OR menuStatus = :menuStatus)
-                    AND (:price IS NULL OR price LIKE '%:price%')
-                    AND (:rating IS NULL OR rating = :rating)
-                    AND (:archived IS NULL OR menu.archived = :archived)
-                    AND (:categoryId IS NULL OR categoryId = :categoryId)
-                    AND (:subCategory IS NULL OR subCategory = :subCategory) 
-                    AND (:allergenId IS NULL OR allergenId = :allergenId)
+                WHERE (".$menuName." IS NULL OR menuName LIKE '%".$nqmenuName."%')
+                    AND (".$menuDescription." IS NULL OR menuDescription LIKE '%".$nqmenuDescription."%')
+                    AND (".$menuStatus." IS NULL OR menuStatus = ".$menuStatus.")
+                    AND (".$price." IS NULL OR price LIKE ".$price.")
+                    AND (".$rating." IS NULL OR rating = ".$rating.")
+                    AND (".$archived." IS NULL OR menu.archived = ".$archived.")
+                    AND (".$categoryId." IS NULL OR categoryId = ".$categoryId.")
+                    AND (".$subCategory." IS NULL OR subCategory = ".$subCategory.") 
+                    AND (".$allergenId." IS NULL OR allergenId = ".$allergenId.")
                 ";
+                
         $query = $this->db->prepare($sql);
-        $parameters = array(':menuName' => ($menuName ?: NULL), 
-            ':menuDescription' => ($menuDescription ?: NULL), 
-            ':menuStatus' => ($menuStatus ?: NULL), 
-            ':price' => ($price ?: NULL), 
-            ':rating' => ($rating ?: NULL), 
-            ':archived' => ($archived ?: NULL), 
-            ':categoryId' => ($category ?: NULL), 
-            ':subCategory' => ($subCategory ?: NULL), 
-            ':allergenId' => ($allergen ?: NULL));
-        $query->execute($parameters);
+
+        $query->execute();
         
         // fetchAll() is the PDO method that gets all result rows, here in object-style because we defined this in
         // core/controller.php! If you prefer to get an associative array as the result, then do
@@ -94,6 +98,7 @@ class Model
         // $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ...
 
         //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        //echo ($sql);
 
         return $query->fetchAll();
     }
@@ -189,7 +194,7 @@ class Model
                 menuStatus,
                 price,
                 rating,
-                menu.archived,
+                CASE WHEN menu.archived = 0 THEN 'False' ELSE 'True' END AS archived,
                 menu_category.id as category,
                 subCategory,
                 menu_allergen.id as allergen,
