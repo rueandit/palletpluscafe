@@ -17,7 +17,6 @@ class Orders extends Controller
      */
     public function index()
     {
-        $users = $this->model->getAllUsers();
         $tables = $this->model->getAllTables();
 
         if (isset($_POST["submit_search_order"])) {
@@ -41,7 +40,6 @@ class Orders extends Controller
                 $_POST["modifiedDate"],
                 $_POST["modifiedBy"],
                 $_POST["archived"]
-
             );
         }
         else{
@@ -56,7 +54,6 @@ class Orders extends Controller
             $modifiedBy = '';
             $archived = '';
         }
-
         // getting all orders and amount of orders
         $amount_of_orders = $this->model->getAmountOfOrders();
 
@@ -78,6 +75,9 @@ class Orders extends Controller
      */
     public function addOrder()
     {
+        $menus = $this->model->getAllMenus();
+        $tables = $this->model->getAllTables();
+        
         require APP . 'view/_templates/header.php';
         require APP . 'view/_templates/navigation.php';
         require APP . 'view/_templates/sidebar.php';
@@ -97,11 +97,13 @@ class Orders extends Controller
     {
         // if we have POST data to create a new order entry
         if (isset($_POST["submit_add_order"])) {
-            // do addOrder() in model/model.php
             $this->model->addOrder(
-                $_POST["code"],
-                $_POST["description"],  
-                $_POST["archive"]
+                $_POST['tableId'],
+                $_POST["menuId"],
+                $_POST["status"],
+                $_POST["paid"],
+                $_POST["cash"], 
+                $_POST["archived"]
             );
         }
 

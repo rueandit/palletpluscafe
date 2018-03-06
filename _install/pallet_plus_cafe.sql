@@ -166,6 +166,24 @@ INSERT INTO `menu` (`id`, `menuName`, `menuDescription`, `menuStatus`, `price`, 
 (15, 'Sisig', 'Sisig', 'Available', '99', 'Normal', 0, 1, '', 1, ''),
 (16, 'Lechon Kawali', 'Lechon Kawali', 'Available', '99', 'Normal', 0, 1, '', 1, '');
 
+
+INSERT INTO `customer_table`(`id`, `name`, `description`, `archived`) 
+VALUES 
+(1,'alpha','alpha',0),
+(2,'bravo','bravo',0),
+(3,'charlie','charlie',0),
+(4,'delta','delta',0),
+(5,'echo','echo',0),
+(6,'foxtrot','foxtrot',0),
+(7,'golf','golf',0),
+(8,'hotel','hotel',0),
+(9,'india','india',0),
+(10,'juliet','juliet',0),
+(11,'kilo','kilo',0),
+(12,'lima','lima',0),
+(13,'mike','mike',0),
+(14,'november','november',0);
+
 -- --------------------------------------------------------
 
 --
