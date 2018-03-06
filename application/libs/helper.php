@@ -102,4 +102,75 @@ class Helper
             die();
         }
     }
+
+    ///TO DO: notification module - ajax call, study tables involved
+    ///user order different than admin order
+    static public function showNotificationIcon(){
+        if(isset($_SESSION['user_type'])) {
+            if($_SESSION['user_type'] == UserType::waiter || $_SESSION['user_type'] == UserType::kitchen){
+                echo '<div class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="label label-pill label-danger count" style="border-radius:10px;"></span> <span class="glyphicon glyphicon-bell" style="font-size:18px;"></span></a>
+                            <ul class="dropdown-menu"></ul>
+                        </div>';
+            }
+        }
+    }
+
+    static public function sideBarListAuth(){
+        if(isset($_SESSION['user_type'])) {
+            switch($_SESSION['user_type']){
+                case UserType::superAdmin:
+                    echo '<a href="'. URL . 'users"><i class="fas fa-users display-icon"></i> User Accounts</a>
+                    <a href="'. URL . 'menus"><i class="fas fa-utensils display-icon"></i> Menu</a>
+                    <a href="'. URL . 'tables"><i class="fas fa-hockey-puck display-icon"></i> Tables</a>
+                    <a href="'. URL . 'orders"><i class="fas fa-clipboard-list display-icon"></i> Orders</a>
+                    <a href="'. URL . 'ingredients"><i class="fas fa-shopping-bag display-icon"></i> Ingredients</a>
+                    <a href="'. URL . 'allergens"><i class="fas fa-syringe display-icon"></i> Allergens</a>
+                    <a href="'. URL . 'categories"><i class="fas fa-tags display-icon"></i> Categories</a>
+                    <a href="'. URL . 'menuIngredient"><i class="fas fa-shopping-bag display-icon"></i> Menu Ingredients</a>
+                    <a href="'. URL . 'reports"><i class="fas fa-chart-bar display-icon"></i> Reports</a>';
+                    break;
+                case UserType::admin:
+                    echo '<a href="'. URL . 'menus"><i class="fas fa-utensils display-icon"></i> Menu</a>
+                    <a href="'. URL . 'tables"><i class="fas fa-hockey-puck display-icon"></i> Tables</a>
+                    <a href="'. URL . 'orders"><i class="fas fa-clipboard-list display-icon"></i> Orders</a>
+                    <a href="'. URL . 'ingredients"><i class="fas fa-shopping-bag display-icon"></i> Ingredients</a>
+                    <a href="'. URL . 'allergens"><i class="fas fa-syringe display-icon"></i> Allergens</a>
+                    <a href="'. URL . 'categories"><i class="fas fa-tags display-icon"></i> Categories</a>
+                    <a href="'. URL . 'menuIngredient"><i class="fas fa-shopping-bag display-icon"></i> Menu Ingredients</a>
+                    <a href="'. URL . 'reports"><i class="fas fa-chart-bar display-icon"></i> Reports</a>';
+                    break;
+                case UserType::waiter:
+                case UserType::cashier:
+                    echo '<a href="'. URL . 'menus"><i class="fas fa-utensils display-icon"></i> Menu</a>
+                    <a href="'. URL . 'orders"><i class="fas fa-clipboard-list display-icon"></i> Orders</a>';
+                    break;
+                case UserType::kitchen:
+                    echo '<a href="'. URL . 'orders"><i class="fas fa-clipboard-list display-icon"></i> Orders</a>
+                    <a href="'. URL . 'ingredients"><i class="fas fa-shopping-bag display-icon"></i> Ingredients</a>
+                    <a href="'. URL . 'menuIngredient"><i class="fas fa-shopping-bag display-icon"></i> Menu Ingredients</a>';
+                    break;
+                default:
+                    echo 'No Access';
+                    break;
+            }
+        }
+    }
+    static public function getLandingPage(){
+        switch ($_SESSION["user_type"]){
+            case UserType::superAdmin:
+            case UserType::admin:
+            case UserType::waiter:
+            case UserType::cashier:
+                return 'menus';
+                break;
+            case UserType::kitchen:
+                return 'orders';
+                break;
+            default:
+                return 'problems';
+                break;
+        }
+        return 'problems';
+    }
 }

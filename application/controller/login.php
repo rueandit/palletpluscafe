@@ -32,7 +32,7 @@ class Login extends Controller
                 if($verifyUser->username == $_POST["username"] && $verifyUser->password == $_POST["password"]){
                     $_SESSION["username"] = $verifyUser->username;
                     $_SESSION["user_type"] = $verifyUser->type;
-                    header('location: ' . URL . 'menus/index');
+                    header('location: ' . URL . Helper::getLandingPage());
                 }
                 else{
                     $_SESSION["login_error"] = "Invalid Password";
@@ -44,7 +44,6 @@ class Login extends Controller
                 header('location: ' . URL);
             }
         }
-        //header('location: ' . URL . 'menus/index');
     }
 
     public function userlogout(){
