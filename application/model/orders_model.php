@@ -83,13 +83,13 @@ class Model
                     users.username AS modifiedBy,
                     CASE WHEN orders.archived = 0 THEN 'False' ELSE 'True' END AS archived
                 FROM `orders`
-                INNER JOIN orders_log
+                LEFT JOIN orders_log
                 ON orders_log.orderId = orders.id
                 INNER JOIN menu
                 ON menu.id = orders.menuId
                 INNER JOIN customer_table
                 ON customer_table.id = orders.tableId
-                INNER JOIN users
+                LEFT JOIN users
                 ON users.id = orders_log.modifiedBy
                 WHERE (".$menuName." IS NULL OR menu.menuName LIKE '%".$nqmenuName."%')
                     AND (".$status." IS NULL OR orders.status LIKE '%".$nqstatus."%')
