@@ -34,13 +34,13 @@ class Model
                     users.username AS modifiedBy,
                     CASE WHEN orders.archived = 0 THEN 'False' ELSE 'True' END AS archived
                 FROM `orders`
-                LEFT JOIN orders_log
+                INNER JOIN orders_log
                 ON orders_log.orderId = orders.id
                 INNER JOIN menu
                 ON menu.id = orders.menuId
                 INNER JOIN customer_table
                 ON customer_table.id = orders.tableId
-                LEFT JOIN users
+                INNER JOIN users
                 ON users.id = orders_log.modifiedBy
                 ";
         $query = $this->db->prepare($sql);
@@ -83,13 +83,13 @@ class Model
                     users.username AS modifiedBy,
                     CASE WHEN orders.archived = 0 THEN 'False' ELSE 'True' END AS archived
                 FROM `orders`
-                LEFT JOIN orders_log
+                INNER JOIN orders_log
                 ON orders_log.orderId = orders.id
                 INNER JOIN menu
                 ON menu.id = orders.menuId
                 INNER JOIN customer_table
                 ON customer_table.id = orders.tableId
-                LEFT JOIN users
+                INNER JOIN users
                 ON users.id = orders_log.modifiedBy
                 WHERE (".$menuName." IS NULL OR menu.menuName LIKE '%".$nqmenuName."%')
                     AND (".$status." IS NULL OR orders.status LIKE '%".$nqstatus."%')
@@ -131,35 +131,26 @@ class Model
      * @param int $orderId Order
      * @param int $imageId Image
      * */
-    public function addOrder($tableId, $menuId, $status, $paid, $cash, $archived)
+    public function addOrder($code, $description, $archived)
     {
         $sql = "INSERT INTO orders (
-                tableId,
-                menuId,
-                status,
-                paid,
-                cash,
+                code,
+                description,
                 archived
                 ) 
                 VALUES (
-                :tableId,
-                :menuId,
-                :status,
-                :paid,
-                :cash,
+                :code,
+                :description,
                 :archived
                 )";
         $query = $this->db->prepare($sql);
-        $parameters = array(':tableId' => $tableId, 
-            ':menuId' => $menuId, 
-            ':status' => $status,
-            ':paid' => $paid, 
-            ':cash' => $cash, 
+        $parameters = array(':code' => $code, 
+            ':description' => $description, 
             ':archived' => $archived
         );
 
         // useful for debugging: you can see the SQL behind above construction by using:
-       //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
 
         $query->execute($parameters);
     }
@@ -290,6 +281,26 @@ class Model
                 description,
                 CASE WHEN archived = 0 THEN 'False' ELSE 'True' END AS archived
                 FROM customer_table
+                ";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+
+        // fetchAll() is the PDO method that gets all result rows, here in object-style because we defined this in
+        // core/controller.php! If you prefer to get an associative array as the result, then do
+        // $query->fetchAll(PDO::FETCH_ASSOC); or change core/controller.php's PDO options to
+        // $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ...
+        return $query->fetchAll();
+    }
+
+    public function getAllUsers()
+    {
+        $sql = "SELECT 
+                id,
+                username,
+                userPassword,
+                userType,
+                CASE WHEN archived = 0 THEN 'False' ELSE 'True' END AS archived
+                FROM users
                 ";
         $query = $this->db->prepare($sql);
         $query->execute();

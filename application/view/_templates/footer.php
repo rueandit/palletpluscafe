@@ -4,7 +4,7 @@
 
     <!-- define the project's URL (to make AJAX calls possible, even when using this in sub-folders etc) -->
     <script>
-        var url = "<?php echo URL . '\\'; ?>";
+        var url = "<?php echo URL; ?>";
     </script>
 
     <!-- our JavaScript -->
@@ -26,17 +26,17 @@
             navbar.classList.remove("sticky");
         }
         }
-
-        $("#appBar").click(function(x){
-            this.classList.toggle("change");
-            var z = $("#mySidenav")[0];
-
-            if (z.style.width == "250px") {
-                    z.style.width = "0px";
+            
+        function toggleSideNav(x) {
+            x.classList.toggle("change");
+            var z = document.getElementById("mySidenav");
+            
+        if (z.style.width == "250px") {
+                z.style.width = "0px";
             } else {
                 z.style.width = "250px";
-            }
-        });
+            } 
+        }
 
         function hideFilter(){
             $("button#hideFilter").click(function(){
