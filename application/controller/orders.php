@@ -19,8 +19,9 @@ class Orders extends Controller
     {
         Helper::authenticate();
         Helper::authorize("orders/index");
-        $users = $this->model->getAllUsers();
+
         $tables = $this->model->getAllTables();
+        $menus = $this->model->getAllMenus();
 
         if (isset($_POST["submit_search_order"])) {
                 $tableId = $_POST["tableId"];
@@ -32,7 +33,7 @@ class Orders extends Controller
                 $modifiedDate = $_POST["modifiedDate"];
                 $modifiedBy = $_POST["modifiedBy"];
                 $archived = $_POST["archived"];
-            // do getFilteredOrders() in model/model.php
+
             $orders = $this->model->getFilteredOrders(
                 $_POST["tableId"],
                 $_POST["menuName"],
@@ -43,7 +44,6 @@ class Orders extends Controller
                 $_POST["modifiedDate"],
                 $_POST["modifiedBy"],
                 $_POST["archived"]
-
             );
         }
         else{
@@ -82,6 +82,8 @@ class Orders extends Controller
     {
         Helper::authenticate();
         Helper::authorize("orders/addOrder");
+        $tables = $this->model->getAllTables();
+        $menus = $this->model->getAllMenus();
         require APP . 'view/_templates/header.php';
         require APP . 'view/_templates/navigation.php';
         require APP . 'view/_templates/sidebar.php';
@@ -105,9 +107,12 @@ class Orders extends Controller
         if (isset($_POST["submit_add_order"])) {
             // do addOrder() in model/model.php
             $this->model->addOrder(
-                $_POST["code"],
-                $_POST["description"],  
-                $_POST["archive"]
+                $_POST['tableId'],
+                $_POST["menuId"],
+                $_POST["status"],
+                $_POST["paid"],
+                $_POST["cash"], 
+                $_POST["archived"]
             );
         }
 
