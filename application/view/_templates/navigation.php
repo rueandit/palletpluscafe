@@ -1,6 +1,6 @@
 <nav class="navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header" onclick="toggleSideNav(this)">
+    <div class="container-fluid" id="navbar">
+        <div class="navbar-header" id="appBar">
             <div class="bar1"></div>
             <div class="bar2"></div>
             <div class="bar3"></div>
