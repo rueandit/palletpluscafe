@@ -17,6 +17,8 @@ class Orders extends Controller
      */
     public function index()
     {
+        Helper::authenticate();
+        Helper::authorize("orders/index");
         $users = $this->model->getAllUsers();
         $tables = $this->model->getAllTables();
 
@@ -78,6 +80,8 @@ class Orders extends Controller
      */
     public function addOrder()
     {
+        Helper::authenticate();
+        Helper::authorize("orders/addOrder");
         require APP . 'view/_templates/header.php';
         require APP . 'view/_templates/navigation.php';
         require APP . 'view/_templates/sidebar.php';
@@ -95,6 +99,8 @@ class Orders extends Controller
      */
     public function submitOrder()
     {
+        Helper::authenticate();
+        Helper::authorize("orders/submitOrder");
         // if we have POST data to create a new order entry
         if (isset($_POST["submit_add_order"])) {
             // do addOrder() in model/model.php
@@ -120,6 +126,8 @@ class Orders extends Controller
      */
     public function deleteOrder($order_id)
     {
+        Helper::authenticate();
+        Helper::authorize("orders/deleteOrder");
         // if we have an id of a order that should be deleted
         if (isset($order_id)) {
             // do deleteOrder() in model/model.php
@@ -137,6 +145,8 @@ class Orders extends Controller
      */
     public function editOrder($order_id)
     {
+        Helper::authenticate();
+        Helper::authorize("orders/editOrder");
         // if we have an id of a order that should be edited
         if (isset($order_id)) {
             // do getOrder() in model/model.php
@@ -169,6 +179,8 @@ class Orders extends Controller
      */
     public function updateOrder()
     {
+        Helper::authenticate();
+        Helper::authorize("orders/updateOrder");
         // if we have POST data to create a new order entry
         if (isset($_POST["submit_update_order"])) {
             // do updateOrder() from model/model.php
@@ -193,6 +205,8 @@ class Orders extends Controller
      */
     public function ajaxGetStats()
     {
+        Helper::authenticate();
+        Helper::authorize("orders/ajaxGetStats");
         $amount_of_orders = $this->model->getAmountOfOrders();
 
         // simply echo out something. A supersimple API would be possible by echoing JSON here

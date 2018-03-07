@@ -17,6 +17,8 @@ class Allergens extends Controller
      */
     public function index()
     {
+        Helper::authenticate();
+        Helper::authorize("allergens/index");
         if (isset($_POST["submit_search_allergen"])) {
             $code = $_POST["code"];
             $description = $_POST["description"];  
@@ -58,6 +60,8 @@ class Allergens extends Controller
      */
     public function addAllergen()
     {
+        Helper::authenticate();
+        Helper::authorize("allergens/addAllergen");
         require APP . 'view/_templates/header.php';
         require APP . 'view/_templates/navigation.php';
         require APP . 'view/_templates/sidebar.php';
@@ -75,6 +79,8 @@ class Allergens extends Controller
      */
     public function submitAllergen()
     {
+        Helper::authenticate();
+        Helper::authorize("allergens/submitAllergen");
         // if we have POST data to create a new allergen entry
         if (isset($_POST["submit_add_allergen"])) {
             // do addAllergen() in model/model.php
@@ -100,6 +106,8 @@ class Allergens extends Controller
      */
     public function deleteAllergen($allergen_id)
     {
+        Helper::authenticate();
+        Helper::authorize("allergens/deleteAllergen");
         // if we have an id of a allergen that should be deleted
         if (isset($allergen_id)) {
             // do deleteAllergen() in model/model.php
@@ -117,6 +125,8 @@ class Allergens extends Controller
      */
     public function editAllergen($allergen_id)
     {
+        Helper::authenticate();
+        Helper::authorize("allergens/editAllergen");
         // if we have an id of a allergen that should be edited
         if (isset($allergen_id)) {
             // do getAllergen() in model/model.php
@@ -147,6 +157,8 @@ class Allergens extends Controller
      */
     public function updateAllergen()
     {
+        Helper::authenticate();
+        Helper::authorize("allergens/updateAllergen");
         // if we have POST data to create a new allergen entry
         if (isset($_POST["submit_update_allergen"])) {
             // do updateAllergen() from model/model.php
@@ -168,6 +180,8 @@ class Allergens extends Controller
      */
     public function ajaxGetStats()
     {
+        Helper::authenticate();
+        Helper::authorize("allergens/ajaxGetStats");
         $amount_of_allergens = $this->model->getAmountOfAllergens();
 
         // simply echo out something. A supersimple API would be possible by echoing JSON here

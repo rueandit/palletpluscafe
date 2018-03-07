@@ -17,6 +17,8 @@ class Categories extends Controller
      */
     public function index()
     {
+        Helper::authenticate();
+        Helper::authorize("categories/index");
         if (isset($_POST["submit_search_category"])) {
             $code = $_POST["code"];
             $description = $_POST["description"];  
@@ -58,6 +60,8 @@ class Categories extends Controller
      */
     public function addCategory()
     {
+        Helper::authenticate();
+        Helper::authorize("categories/addCategory");
         require APP . 'view/_templates/header.php';
         require APP . 'view/_templates/navigation.php';
         require APP . 'view/_templates/sidebar.php';
@@ -75,6 +79,8 @@ class Categories extends Controller
      */
     public function submitCategory()
     {
+        Helper::authenticate();
+        Helper::authorize("categories/submitCategory");
         // if we have POST data to create a new category entry
         if (isset($_POST["submit_add_category"])) {
             // do addCategory() in model/model.php
@@ -100,6 +106,8 @@ class Categories extends Controller
      */
     public function deleteCategory($category_id)
     {
+        Helper::authenticate();
+        Helper::authorize("categories/deleteCategory");
         // if we have an id of a category that should be deleted
         if (isset($category_id)) {
             // do deleteCategory() in model/model.php
@@ -117,6 +125,8 @@ class Categories extends Controller
      */
     public function editCategory($category_id)
     {
+        Helper::authenticate();
+        Helper::authorize("categories/editCategory");
         // if we have an id of a category that should be edited
         if (isset($category_id)) {
             // do getCategory() in model/model.php
@@ -147,6 +157,8 @@ class Categories extends Controller
      */
     public function updateCategory()
     {
+        Helper::authenticate();
+        Helper::authorize("categories/updateCategory");
         // if we have POST data to create a new category entry
         if (isset($_POST["submit_update_category"])) {
             // do updateCategory() from model/model.php
@@ -168,6 +180,8 @@ class Categories extends Controller
      */
     public function ajaxGetStats()
     {
+        Helper::authenticate();
+        Helper::authorize("categories/ajaxGetStats");
         $amount_of_categories = $this->model->getAmountOfCategories();
 
         // simply echo out something. A supersimple API would be possible by echoing JSON here

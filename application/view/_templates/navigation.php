@@ -8,7 +8,7 @@
         <div class="navbar-right">
             <?php Helper::showNotificationIcon() ?>
             <div>
-                <a href="<?php echo URL; ?>login/userlogout"><span class="glyphicon glyphicon-log-out"></span>Logout</a>
+                <?php if (isset($_SESSION["username"])) echo '<a href="'. URL. 'login/userlogout"><span class="glyphicon glyphicon-log-out"></span>Logout</a>' ?>
             </div>
         </div>
     </div>

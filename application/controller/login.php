@@ -25,7 +25,7 @@ class Login extends Controller
     public function userlogin()
     {
         /// if we have an id of a menu that should be edited
-        $_SESSION["login_error"] = ""; ///TO DO: Fix/reset login error display
+        $_SESSION["login_error"] = "";
         if (isset($_POST["submit_user_login"])) {
             $verifyUser = $this->model->getUser($_POST["username"]);
             if($verifyUser){

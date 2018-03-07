@@ -63,10 +63,12 @@ class Helper
         }
     }
     
-    ///TO DO: refactor:
+    ///TO DO
+    /// refactor:
     ///         move to a separate class if necessary
     ///         evaluate the need for creating enum or storing permissions to DB
     ///         validation is at page level, buttons to initialize functionality will still show (i.e. add button)
+    ///         instead of passing pages, pass who has access??
     // Super Admin -> user creation, logs
     // Admin -> Menus, Orders, Ingredients, Tables, Allergens, Categories, Reports
     // Waiter,Cashier -> Menus(View Only), Orders (note: would differ on notif)
@@ -90,6 +92,18 @@ class Helper
                 case "menus/deleteMenu" :
                 case "menus/editMenu" :
                 case "menus/updateMenu" :
+                case "allergens/index" :
+                case "allergens/addAllergen" :
+                case "allergens/submitAllergen" :
+                case "allergens/deleteAllergen" :
+                case "allergens/editAllergen" :
+                case "allergens/updateAllergen" :
+                case "categories/index" :
+                case "categories/addCategory" :
+                case "categories/submitCategory" :
+                case "categories/deleteCategory" :
+                case "categories/editCategory" :
+                case "categories/updateCategory" :
                     if ($type == UserType::waiter || $type == UserType::cashier || $type == UserType::kitchen){
                         $isAuthorized = false;
                     }
