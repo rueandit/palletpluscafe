@@ -29,9 +29,9 @@ class Login extends Controller
         if (isset($_POST["submit_user_login"])) {
             $verifyUser = $this->model->getUser($_POST["username"]);
             if($verifyUser){
-                if($verifyUser->username == $_POST["username"] && $verifyUser->password == $_POST["password"]){
+                if($verifyUser->username == $_POST["username"] && $verifyUser->userPassword == $_POST["password"]){
                     $_SESSION["username"] = $verifyUser->username;
-                    $_SESSION["user_type"] = $verifyUser->type;
+                    $_SESSION["user_type"] = $verifyUser->userType;
                     header('location: ' . URL . Helper::getLandingPage());
                 }
                 else{

@@ -20,7 +20,7 @@ class Model
      */
     public function getUser($username)
     {
-        $sql = "SELECT id, username, password, type FROM users WHERE username= :username LIMIT 1";
+        $sql = "SELECT id, username, userPassword, userType FROM users WHERE username= :username LIMIT 1";
         $query = $this->db->prepare($sql);
         $parameters = array(':username' => $username);
 
