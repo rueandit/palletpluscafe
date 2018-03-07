@@ -105,6 +105,8 @@ class Helper
 
     ///TO DO: notification module - ajax call, study tables involved
     ///user order different than admin order
+    ///update permission for all screens added
+    ///order view of kitchen
     static public function showNotificationIcon(){
         if(isset($_SESSION['user_type'])) {
             if($_SESSION['user_type'] == UserType::waiter || $_SESSION['user_type'] == UserType::kitchen){
