@@ -381,15 +381,15 @@ CREATE TABLE `orders_log` (
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `username` varchar(64) NOT NULL,
-  `password` varchar(64) NOT NULL,
-  `type` varchar(64) NOT NULL
+  `userPassword` varchar(64) NOT NULL,
+  `userType` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `type`) VALUES
+INSERT INTO `users` (`id`, `username`, `userPassword`, `userType`) VALUES
 (1, 'super', 'super', 'superadmin'),
 (2, 'admin', 'admin', 'admin'),
 (3, 'cashier', 'cashier', 'cashier'),
