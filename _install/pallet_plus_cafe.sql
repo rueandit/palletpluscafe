@@ -27,9 +27,7 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `customer_table`
 --
-SET FOREIGN_KEY_CHECKS = 0;
 
-DROP TABLE IF EXISTS `customer_table`;
 CREATE TABLE `customer_table` (
   `id` int(11) NOT NULL,
   `name` varchar(64) NOT NULL,
@@ -42,7 +40,7 @@ CREATE TABLE `customer_table` (
 --
 -- Table structure for table `customer_table_log`
 --
-DROP TABLE IF EXISTS `customer_table_log`;
+
 CREATE TABLE `customer_table_log` (
   `id` int(11) NOT NULL,
   `createdDate` datetime NOT NULL,
@@ -61,7 +59,6 @@ CREATE TABLE `customer_table_log` (
 -- Table structure for table `images`
 --
 
-DROP TABLE IF EXISTS `images`;
 CREATE TABLE `images` (
   `id` int(11) NOT NULL,
   `name` varchar(512) NOT NULL,
@@ -75,7 +72,6 @@ CREATE TABLE `images` (
 -- Table structure for table `images_log`
 --
 
-DROP TABLE IF EXISTS `images_log`;
 CREATE TABLE `images_log` (
   `id` int(11) NOT NULL,
   `createdDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -90,7 +86,6 @@ CREATE TABLE `images_log` (
 -- Table structure for table `ingredient`
 --
 
-DROP TABLE IF EXISTS `ingredient`;
 CREATE TABLE `ingredient` (
   `id` int(11) NOT NULL,
   `name` varchar(512) NOT NULL,
@@ -107,7 +102,6 @@ CREATE TABLE `ingredient` (
 -- Table structure for table `ingredient_log`
 --
 
-DROP TABLE IF EXISTS `ingredient_log`;
 CREATE TABLE `ingredient_log` (
   `id` int(11) NOT NULL,
   `createdDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -129,7 +123,6 @@ CREATE TABLE `ingredient_log` (
 -- Table structure for table `menu`
 --
 
-DROP TABLE IF EXISTS `menu`;
 CREATE TABLE `menu` (
   `id` int(11) NOT NULL,
   `menuName` varchar(512) NOT NULL,
@@ -144,7 +137,6 @@ CREATE TABLE `menu` (
   `imageFile` varchar(512) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-SET FOREIGN_KEY_CHECKS = 1;
 --
 -- Dumping data for table `menu`
 --

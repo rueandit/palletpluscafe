@@ -12,54 +12,83 @@
     <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>  
 
 <script>
-    window.onscroll = function() {myFunction()};
+    $( document ).ready(function() {
+        window.onscroll = function() {myFunction()};
 
-    var navbar = document.getElementById("navbar");
-    var sticky = navbar.offsetTop;
+        var navbar = document.getElementById("navbar");
+        var sticky = navbar.offsetTop;
+        var orders = {};
 
-    function myFunction() {
-    if (window.pageYOffset >= sticky) {
-        navbar.classList.add("sticky")
-    } else {
-        navbar.classList.remove("sticky");
-    }
-    }
-        
-    function toggleSideNav(x) {
-        x.classList.toggle("change");
-        var z = document.getElementById("mySidenav");
-        
-    if (z.style.width == "250px") {
-            z.style.width = "0px";
+        function myFunction() {
+        if (window.pageYOffset >= sticky) {
+            navbar.classList.add("sticky")
         } else {
-            z.style.width = "250px";
-        } 
-    }
+            navbar.classList.remove("sticky");
+        }
+        }
+            
+        function toggleSideNav(x) {
+            x.classList.toggle("change");
+            var z = document.getElementById("mySidenav");
+            
+        if (z.style.width == "250px") {
+                z.style.width = "0px";
+            } else {
+                z.style.width = "250px";
+            } 
+        }
 
-    function hideFilter(){
-        $("button#hideFilter").click(function(){
-        $("div#filters").slideUp(500);
+        function hideFilter(){
+            $("button#hideFilter").click(function(){
+            $("div#filters").slideUp(500);
+            
+            var sf = document.getElementById("showFilter");
+            sf.style.display = "block";
+
+            var hf = document.getElementById("hideFilter");
+            hf.style.display = "none";
+
+            });   
+        }
+
+        function showFilter(){
+            $("button#showFilter").click(function(){
+            $("div#filters").slideDown(500);
+
+            var hf = document.getElementById("hideFilter");
+            hf.style.display = "block";
+
+            var sf = document.getElementById("showFilter");
+            sf.style.display = "none";
+        });  
+        }
+
+        $('button.increase').click(function(){
+        var menuId = (this.id).split("-")[1];
+        var counter = parseInt(document.getElementById("counter-" + menuId).value);
+        counter++;
         
-        var sf = document.getElementById("showFilter");
-        sf.style.display = "block";
-
-        var hf = document.getElementById("hideFilter");
-        hf.style.display = "none";
-
-        });   
-    }
-
-    function showFilter(){
-        $("button#showFilter").click(function(){
-        $("div#filters").slideDown(500);
-
-        var hf = document.getElementById("hideFilter");
-        hf.style.display = "block";
-
-        var sf = document.getElementById("showFilter");
-        sf.style.display = "none";
-    });  
-    }
+        orders[menuId] = counter;
+        $('input[type=text]#counter-' + menuId).val(counter);
+        alert(JSON.stringify(orders));
+        });
+        
+        $('button.decrease').click(function(){
+        var menuId = (this.id).split("-")[1];
+        var counter = parseInt(document.getElementById("counter-" + menuId).value);
+        if (counter > 0) {
+            counter--;
+            if(counter == 0){
+                delete orders[menuId];
+            }else{
+                orders[menuId] = counter;
+            }
+        }
+        
+        $('input[type=text]#counter-' + menuId).val(counter);
+        alert(JSON.stringify(orders));
+        });
+    });
 </script>
 </body>
 </html>
