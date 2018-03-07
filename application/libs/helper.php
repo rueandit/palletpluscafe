@@ -104,7 +104,35 @@ class Helper
                 case "categories/deleteCategory" :
                 case "categories/editCategory" :
                 case "categories/updateCategory" :
+                case "ingredients/index" :
+                case "ingredients/addIngredient" :
+                case "ingredients/submitIngredient" :
+                case "ingredients/deleteIngredient" :
+                case "ingredients/editIngredient" :
+                case "ingredients/updateIngredient" :
+                case "tables/index" :
+                case "tables/addTable" :
+                case "tables/submitTable" :
+                case "tables/deleteTable" :
+                case "tables/editTable" :
+                case "tables/updateTable" :
+                case "menuIngredients/index" :
+                case "menuIngredients/addMenuIngredient" :
+                case "menuIngredients/submitMenuIngredient" :
+                case "menuIngredients/deleteMenuIngredient" :
+                case "menuIngredients/editMenuIngredient" :
+                case "menuIngredients/updateMenuIngredient" :
                     if ($type == UserType::waiter || $type == UserType::cashier || $type == UserType::kitchen){
+                        $isAuthorized = false;
+                    }
+                    break;
+                case "users/index" :
+                case "users/addUser" :
+                case "users/submitUser" :
+                case "users/deleteUser" :
+                case "users/editUser" :
+                case "users/updateUser" :
+                    if ($type == UserType::waiter || $type == UserType::cashier || $type == UserType::kitchen || $type == UserType::admin){
                         $isAuthorized = false;
                     }
                     break;

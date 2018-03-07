@@ -17,6 +17,8 @@ class Users extends Controller
      */
     public function index()
     {
+        Helper::authenticate();
+        Helper::authorize("users/index");
         if (isset($_POST["submit_search_users"])) {
             $username = $_POST["username"];
             $userType = $_POST["userType"];  
@@ -57,6 +59,8 @@ class Users extends Controller
      */
     public function addUser()
     {
+        Helper::authenticate();
+        Helper::authorize("users/addUser");
         require APP . 'view/_templates/header.php';
         require APP . 'view/_templates/navigation.php';
         require APP . 'view/_templates/sidebar.php';
@@ -74,6 +78,8 @@ class Users extends Controller
      */
     public function submitUser()
     {
+        Helper::authenticate();
+        Helper::authorize("users/submitUser");
         // if we have POST data to create a new menu entry
         if (isset($_POST["submit_add_user"])) {
             // do addUser() in model/model.php
@@ -99,6 +105,8 @@ class Users extends Controller
      */
     public function deleteUser($user_id)
     {
+        Helper::authenticate();
+        Helper::authorize("users/deleteUser");
         // if we have an id of a menu that should be deleted
         if (isset($user_id)) {
             // do deleteMenu() in model/model.php
@@ -116,6 +124,8 @@ class Users extends Controller
      */
     public function editUser($user_id)
     {
+        Helper::authenticate();
+        Helper::authorize("users/editUser");
         // if we have an id of a menu that should be edited
         if (isset($user_id)) {
             // do getMenu() in model/model.php
@@ -146,6 +156,8 @@ class Users extends Controller
      */
     public function updateUser()
     {
+        Helper::authenticate();
+        Helper::authorize("users/updateUser");
         // if we have POST data to create a new menu entry
         if (isset($_POST["submit_update_user"])) {
             // do updateMenu() from model/model.php
@@ -168,6 +180,8 @@ class Users extends Controller
      */
     public function ajaxGetStats()
     {
+        Helper::authenticate();
+        Helper::authorize("users/ajaxGetStats");
         $amount_of_menus = $this->model->getAmountOfUsers();
 
         // simply echo out something. A supersimple API would be possible by echoing JSON here

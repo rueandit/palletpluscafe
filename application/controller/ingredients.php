@@ -17,6 +17,8 @@ class Ingredients extends Controller
      */
     public function index()
     {
+        Helper::authenticate();
+        Helper::authorize("ingredients/index");
         if (isset($_POST["submit_search_ingredient"])) {
             $name = $_POST["name"];
             $description = $_POST["description"];
@@ -63,6 +65,8 @@ class Ingredients extends Controller
      */
     public function addIngredient()
     {
+        Helper::authenticate();
+        Helper::authorize("ingredients/addIngredient");
         $images = $this->model->getAllImages();
 
         require APP . 'view/_templates/header.php';
@@ -82,6 +86,8 @@ class Ingredients extends Controller
      */
     public function submitIngredient()
     {
+        Helper::authenticate();
+        Helper::authorize("ingredients/submitIngredient");
         // if we have POST data to create a new ingredient entry
         if (isset($_POST["submit_add_ingredient"])) {
             // do addIngredient() in model/model.php
@@ -110,6 +116,8 @@ class Ingredients extends Controller
      */
     public function deleteIngredient($ingredient_id)
     {
+        Helper::authenticate();
+        Helper::authorize("ingredients/deleteIngredient");
         // if we have an id of a ingredient that should be deleted
         if (isset($ingredient_id)) {
             // do deleteIngredient() in model/model.php
@@ -127,6 +135,8 @@ class Ingredients extends Controller
      */
     public function editIngredient($ingredient_id)
     {
+        Helper::authenticate();
+        Helper::authorize("ingredients/editIngredient");
         // if we have an id of a ingredient that should be edited
         if (isset($ingredient_id)) {
             // do getIngredient() in model/model.php
@@ -158,6 +168,8 @@ class Ingredients extends Controller
      */
     public function updateIngredient()
     {
+        Helper::authenticate();
+        Helper::authorize("ingredients/updateIngredient");
         // if we have POST data to create a new ingredient entry
         if (isset($_POST["submit_update_ingredient"])) {
             // do updateIngredient() from model/model.php
@@ -182,6 +194,8 @@ class Ingredients extends Controller
      */
     public function ajaxGetStats()
     {
+        Helper::authenticate();
+        Helper::authorize("ingredients/ajaxGetStats");
         $amount_of_ingredients = $this->model->getAmountOfIngredients();
 
         // simply echo out something. A supersimple API would be possible by echoing JSON here

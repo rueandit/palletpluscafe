@@ -17,6 +17,8 @@ class MenuIngredient extends Controller
      */
     public function index()
     {
+        Helper::authenticate();
+        Helper::authorize("menuIngredients/index");
         if (isset($_POST["submit_search_menuIngredient"])) {
             $menuName = $_POST["menuName"];
             $ingredient = $_POST["ingredient"];
@@ -60,6 +62,8 @@ class MenuIngredient extends Controller
      */
     public function addMenuIngredient()
     {
+        Helper::authenticate();
+        Helper::authorize("menuIngredients/addMenuIngredient");
         $ingredients = $this->model->getAllIngredients();
         $menus = $this->model->getAllMenus();
 
@@ -80,6 +84,8 @@ class MenuIngredient extends Controller
      */
     public function submitMenuIngredient()
     {
+        Helper::authenticate();
+        Helper::authorize("menuIngredients/submitMenuIngredient");
         // if we have POST data to create a new ingredient entry
         if (isset($_POST["submit_add_menuIngredient"])) {
             // do addIngredient() in model/model.php
@@ -106,6 +112,8 @@ class MenuIngredient extends Controller
      */
     public function deleteMenuIngredient($menuIngredient_id)
     {
+        Helper::authenticate();
+        Helper::authorize("menuIngredients/deleteMenuIngredient");
         // if we have an id of a ingredient that should be deleted
         if (isset($ingredient_id)) {
             // do deleteIngredient() in model/model.php
@@ -123,6 +131,8 @@ class MenuIngredient extends Controller
      */
     public function editMenuIngredient($menuIngredient_id)
     {
+        Helper::authenticate();
+        Helper::authorize("menuIngredients/editMenuIngredient");
         // if we have an id of a ingredient that should be edited
         if (isset($menuIngredient_id)) {
             // do getIngredient() in model/model.php
@@ -155,6 +165,8 @@ class MenuIngredient extends Controller
      */
     public function updateMenuIngredient()
     {
+        Helper::authenticate();
+        Helper::authorize("menuIngredients/updateMenuIngredient");
         // if we have POST data to create a new ingredient entry
         if (isset($_POST["submit_update_menuIngredient"])) {
             // do updateIngredient() from model/model.php
@@ -177,6 +189,8 @@ class MenuIngredient extends Controller
      */
     public function ajaxGetStats()
     {
+        Helper::authenticate();
+        Helper::authorize("menuIngredients/ajaxGetStats");
         $amount_of_ingredients = $this->model->getAmountOfMenuIngredient();
 
         // simply echo out something. A supersimple API would be possible by echoing JSON here

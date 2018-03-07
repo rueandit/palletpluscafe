@@ -17,6 +17,8 @@ class Tables extends Controller
      */
     public function index()
     {
+        Helper::authenticate();
+        Helper::authorize("tables/index");
         if (isset($_POST["submit_search_table"])) {
             $name = $_POST["name"];
             $description = $_POST["description"];  
@@ -58,6 +60,8 @@ class Tables extends Controller
      */
     public function addTable()
     {
+        Helper::authenticate();
+        Helper::authorize("tables/addTable");
         require APP . 'view/_templates/header.php';
         require APP . 'view/_templates/navigation.php';
         require APP . 'view/_templates/sidebar.php';
@@ -75,6 +79,8 @@ class Tables extends Controller
      */
     public function submitTable()
     {
+        Helper::authenticate();
+        Helper::authorize("tables/submitTable");
         // if we have POST data to create a new table entry
         if (isset($_POST["submit_add_table"])) {
             // do addTable() in model/model.php
@@ -100,6 +106,8 @@ class Tables extends Controller
      */
     public function deleteTable($table_id)
     {
+        Helper::authenticate();
+        Helper::authorize("tables/deleteTable");
         // if we have an id of a table that should be deleted
         if (isset($table_id)) {
             // do deleteTable() in model/model.php
@@ -117,6 +125,8 @@ class Tables extends Controller
      */
     public function editTable($table_id)
     {
+        Helper::authenticate();
+        Helper::authorize("tables/editTable");
         // if we have an id of a table that should be edited
         if (isset($table_id)) {
             // do getTable() in model/model.php
@@ -147,6 +157,8 @@ class Tables extends Controller
      */
     public function updateTable()
     {
+        Helper::authenticate();
+        Helper::authorize("tables/updateTable");
         // if we have POST data to create a new table entry
         if (isset($_POST["submit_update_table"])) {
             // do updateTable() from model/model.php
@@ -168,6 +180,8 @@ class Tables extends Controller
      */
     public function ajaxGetStats()
     {
+        Helper::authenticate();
+        Helper::authorize("tables/ajaxGetStats");
         $amount_of_tables = $this->model->getAmountOfTables();
 
         // simply echo out something. A supersimple API would be possible by echoing JSON here
