@@ -38,8 +38,7 @@
             }
         });
 
-        function hideFilter(){
-            $("button#hideFilter").click(function(){
+        $("button#hideFilter").click(function(){
             $("div#filters").slideUp(500);
             
             var sf = document.getElementById("showFilter");
@@ -47,12 +46,9 @@
 
             var hf = document.getElementById("hideFilter");
             hf.style.display = "none";
+        });   
 
-            });   
-        }
-
-        function showFilter(){
-            $("button#showFilter").click(function(){
+        $("button#showFilter").click(function(){
             $("div#filters").slideDown(500);
 
             var hf = document.getElementById("hideFilter");
@@ -61,7 +57,6 @@
             var sf = document.getElementById("showFilter");
             sf.style.display = "none";
         });  
-        }
 
         $('button.increase').click(function(){
         var menuId = (this.id).split("-")[1];

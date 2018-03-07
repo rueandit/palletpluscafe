@@ -4,8 +4,8 @@
             <div class="primary-actions">
                 <div class="search-bar">
                     <div class="filter">
-                        <button id="showFilter" class="primary-button showFilter" type="submit" name="search_ingredients" onclick="showFilter()"><i class="fa fa-filter display-icon"></i> Show Filter</button>
-                        <button id="hideFilter" class="primary-button hideFilter" type="submit" name="search_ingredients" onclick="hideFilter()"><i class="fa fa-filter display-icon"></i> Hide Filter</button>
+                        <button id="showFilter" class="primary-button showFilter" type="submit" name="search_ingredients" ><i class="fa fa-filter display-icon"></i> Show Filter</button>
+                        <button id="hideFilter" class="primary-button hideFilter" type="submit" name="search_ingredients" ><i class="fa fa-filter display-icon"></i> Hide Filter</button>
                     </div>
                     <div class="add">
                         <form action="<?php echo URL; ?>ingredients/addIngredient" method="POST">
