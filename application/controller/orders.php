@@ -241,6 +241,12 @@ class Orders extends Controller
         echo '"'. $orders_count . '"';
     }
 
+    public function ajaxGetNewPaymentOrders(){
+        Helper::authenticate();
+        $orders_count = $this->model->getNewPaymentOrders();
+        echo '"'. $orders_count . '"';
+    }
+
     public function ajaxUpdateOrderStatus(){
         Helper::authenticate();
         $this->model->updateOrderStatus($_POST["id"], $_POST["status"]);

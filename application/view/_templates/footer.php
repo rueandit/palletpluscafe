@@ -175,6 +175,28 @@
             });
         }
 
+        function notifyNewPaymentOrders(){
+            $.ajax({
+                url: "/orders/ajaxGetNewPaymentOrders",
+                method:"GET",
+                dataType:"json",
+                success:function(data){
+                            if(parseInt(data) > 0){
+                                if(parseInt(data) > 1){
+                                    toastr["info"](data + " new orders ready for payment! Click here to see updates.")
+                                }
+                                else{
+                                    toastr["info"]("New order ready for payment! Click here to see updates.")
+                                }
+
+                            }
+                        },
+                error:function(data){
+                    console.error(data);
+                }
+            });
+        }
+
         $('.btn-order-action').click(function(){
             $.ajax({
                 url: "/orders/ajaxUpdateOrderStatus",

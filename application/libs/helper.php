@@ -153,14 +153,21 @@ class Helper
                     if($("#orders").length > 0){
                         notifyPendingOrders();
                     }
-                }, 10000);';
+                }, 30000);';
             }
             else if($_SESSION['user_type'] == UserType::waiter){
                 echo 'setInterval(function(){
                     if($("#orders").length > 0){
                         notifyNewReadyOrders();
                     }
-                }, 10000);';
+                }, 30000);';
+            }
+            else if($_SESSION['user_type'] == UserType::cashier){
+                echo 'setInterval(function(){
+                    if($("#orders").length > 0){
+                        notifyNewPaymentOrders();
+                    }
+                }, 30000);';
             }
         }
     }

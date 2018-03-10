@@ -305,6 +305,17 @@ class Model
         return $query->fetch()->orders_count;
     }
 
+    public function getNewPaymentOrders()
+    {
+        $sql = "SELECT COUNT(id) AS orders_count FROM orders WHERE status=" . "'". OrderStatus::forPayment ."'";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+
+        // fetch() is the PDO method that get exactly one result
+        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        return $query->fetch()->orders_count;
+    }
+
     public function updateOrderStatus($order_id, $status){
         
         $sql = "UPDATE orders 
