@@ -285,13 +285,42 @@ class Model
     
     public function getNewPendingOrders()
     {
-        $sql = "SELECT COUNT(id) AS pending_orders_count FROM orders WHERE status='pending'";
+        $sql = "SELECT COUNT(id) AS orders_count FROM orders WHERE status=" . "'". OrderStatus::pending ."'";
         $query = $this->db->prepare($sql);
         $query->execute();
 
         // fetch() is the PDO method that get exactly one result
         // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
-        return $query->fetch()->pending_orders_count;
+        return $query->fetch()->orders_count;
+    }
+
+    public function getNewReadyOrders()
+    {
+        $sql = "SELECT COUNT(id) AS orders_count FROM orders WHERE status=" . "'". OrderStatus::forServing ."'";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+
+        // fetch() is the PDO method that get exactly one result
+        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        return $query->fetch()->orders_count;
+    }
+
+    public function updateOrderStatus($order_id, $status){
+        
+        $sql = "UPDATE orders 
+                SET status = :status
+                WHERE id = :order_id";
+        
+        $query = $this->db->prepare($sql);
+        $parameters = array(
+            ':status' => $status, 
+            ':order_id' => $order_id
+            );
+
+        // useful for debugging: you can see the SQL behind above construction by using:
+        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+
+        $query->execute($parameters);
     }
 
     public function getAllTables()

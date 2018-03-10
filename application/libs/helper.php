@@ -153,11 +153,17 @@ class Helper
     ///reload table
     static public function enableNotification(){
         if(isset($_SESSION['user_type'])) {
-            if($_SESSION['user_type'] == UserType::waiter || $_SESSION['user_type'] == UserType::kitchen || $_SESSION['user_type'] == UserType::cashier){
+            if($_SESSION['user_type'] == UserType::kitchen){
                 echo 'setInterval(function(){
-                    debugger;
                     if($("#orders").length > 0){
-                        notifyIncomingOrders();
+                        notifyPendingOrders();
+                    }
+                }, 10000);';
+            }
+            else if($_SESSION['user_type'] == UserType::waiter){
+                echo 'setInterval(function(){
+                    if($("#orders").length > 0){
+                        notifyNewReadyOrders();
                     }
                 }, 10000);';
             }
