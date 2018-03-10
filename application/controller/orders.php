@@ -67,6 +67,12 @@ class Orders extends Controller
             case UserType::waiter:
                 require APP . 'view/orders/waiter_index.php';
                 break;
+            case UserType::kitchen:
+                require APP . 'view/orders/kitchen_index.php';
+                break;
+            case UserType::cashier:
+                require APP . 'view/orders/cashier_index.php';
+                break;
             default:
                 require APP . 'view/orders/index.php';
         }
