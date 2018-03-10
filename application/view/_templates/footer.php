@@ -12,7 +12,7 @@
     <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>  
 
 <script>
-    $( document ).ready(function() {
+    $(document).ready(function() {
         window.onscroll = function() {myFunction()};
 
         var navbar = document.getElementById("navbar");
@@ -81,8 +81,37 @@
         }
         
         $('input[type=text]#counter-' + menuId).val(counter);
-        alert(JSON.stringify(orders));
+            alert(JSON.stringify(orders));
         });
+
+        //orders screen
+        function notifyIncomingOrders(){
+            $.ajax({
+                url: "/orders/ajaxGetNewPendingOrders",
+                method:"POST",
+                dataType:"json",
+                success:function(data){
+                            if(parseInt(data) > 0){
+                                if(parseInt(data) > 1){
+                                    toastr["info"](data + " new pending orders!")
+                                }
+                                else{
+                                    toastr["info"]("New pending order!")
+                                }
+                            }
+                        },
+                error:function(data){
+                    console.error(data);
+                }
+            });
+        }
+
+        setInterval(function(){
+            debugger;
+            if($("#orders").length > 0){
+                notifyIncomingOrders();
+            }
+        }, 5000);
     });
 </script>
 </body>

@@ -218,4 +218,9 @@ class Orders extends Controller
         echo $amount_of_orders;
     }
 
+    public function ajaxGetNewPendingOrders(){
+        $pending_orders_count = $this->model->getNewPendingOrders();
+        echo '"'. $pending_orders_count . '"';
+    }
+
 }

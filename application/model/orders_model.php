@@ -282,6 +282,17 @@ class Model
         // fetch() is the PDO method that get exactly one result
         return $query->fetch()->amount_of_orders;
     }
+    
+    public function getNewPendingOrders()
+    {
+        $sql = "SELECT COUNT(id) AS pending_orders_count FROM orders WHERE status='pending'";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+
+        // fetch() is the PDO method that get exactly one result
+        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        return $query->fetch()->pending_orders_count;
+    }
 
     public function getAllTables()
     {

@@ -56,6 +56,7 @@ class Helper
         return $raw_sql;
     }
 
+    ///TO DO: refactor this to be called once - move to core/application.php
     static public function authenticate(){
         if(!isset($_SESSION['username'])) {
             header('location: ' . URL. 'problem');
@@ -145,10 +146,10 @@ class Helper
         }
     }
 
-    ///TO DO: notification module - ajax call, study tables involved
+    ///TO DO: 
     ///user order different than admin order
-    ///update permission for all screens added
-    ///order view of kitchen
+    ///update permission for all screens added (done so far)
+    ///order view of kitchen (done so far, add snackbar notif)
     static public function showNotificationIcon(){
         if(isset($_SESSION['user_type'])) {
             if($_SESSION['user_type'] == UserType::waiter || $_SESSION['user_type'] == UserType::kitchen){
