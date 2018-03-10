@@ -148,15 +148,18 @@ class Helper
 
     ///TO DO: 
     ///user order different than admin order
-    ///update permission for all screens added (done so far)
-    ///order view of kitchen (done so far, add snackbar notif)
-    static public function showNotificationIcon(){
+    ///modify ui/ux of toastr
+    ///make status enum
+    ///reload table
+    static public function enableNotification(){
         if(isset($_SESSION['user_type'])) {
-            if($_SESSION['user_type'] == UserType::waiter || $_SESSION['user_type'] == UserType::kitchen){
-                echo '<div class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="label label-pill label-danger count" style="border-radius:10px;"></span> <span class="glyphicon glyphicon-bell" style="font-size:18px;"></span></a>
-                            <ul class="dropdown-menu"></ul>
-                        </div>';
+            if($_SESSION['user_type'] == UserType::waiter || $_SESSION['user_type'] == UserType::kitchen || $_SESSION['user_type'] == UserType::cashier){
+                echo 'setInterval(function(){
+                    debugger;
+                    if($("#orders").length > 0){
+                        notifyIncomingOrders();
+                    }
+                }, 10000);';
             }
         }
     }

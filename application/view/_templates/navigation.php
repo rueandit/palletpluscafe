@@ -6,7 +6,6 @@
             <div class="bar3"></div>
         </div>
         <div class="navbar-right">
-            <?php Helper::showNotificationIcon() ?>
             <div>
                 <?php if (isset($_SESSION["username"])) echo '<a href="'. URL. 'login/userlogout"><span class="glyphicon glyphicon-log-out"></span>Logout</a>' ?>
             </div>

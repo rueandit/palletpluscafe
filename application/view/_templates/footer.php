@@ -14,6 +14,22 @@
 <script>
     $(document).ready(function() {
         window.onscroll = function() {myFunction()};
+        toastr.options = {
+            "closeButton": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-full-width",
+            "preventDuplicates": true,
+            "showDuration": 300,
+            "hideDuration": 1000,
+            "timeOut": 5000,
+            "extendedTimeOut": 1000,
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut",
+            "onclick": function(){location.reload();}
+        }
 
         var navbar = document.getElementById("navbar");
         var sticky = navbar.offsetTop;
@@ -93,11 +109,12 @@
                 success:function(data){
                             if(parseInt(data) > 0){
                                 if(parseInt(data) > 1){
-                                    toastr["info"](data + " new pending orders!")
+                                    toastr["info"](data + " new pending orders! Click here to see updates.")
                                 }
                                 else{
-                                    toastr["info"]("New pending order!")
+                                    toastr["info"]("New pending order! Click here to see updates.")
                                 }
+
                             }
                         },
                 error:function(data){
@@ -106,12 +123,7 @@
             });
         }
 
-        setInterval(function(){
-            debugger;
-            if($("#orders").length > 0){
-                notifyIncomingOrders();
-            }
-        }, 5000);
+        <?php Helper::enableNotification() ?>
     });
 </script>
 </body>
