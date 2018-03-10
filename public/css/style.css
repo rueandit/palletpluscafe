@@ -97,14 +97,32 @@ div.info {
     background: #66131c;
 }
 
-/* Forms */
-.form {
+/* Login Form */
+.login-form {
   background: rgba(19, 35, 47, 0.65);
   padding: 50px;
   max-width: 400px;
-  margin: 40px auto;
+  height: 400px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
+  margin:auto;
   border-radius: 5px;
   box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+  font-family: 'Titillium Web', sans-serif;
+}
+
+.login-form h1{
+  text-align: center;
+  color: #ffffff;
+  font-weight: 300;
+  margin: 0 0 40px;
+  font-family: 'Avant-Garde', sans-serif; 
+}
+.login-form button{
+  font-family: 'Titillium Web', sans-serif;
 }
 
 label.login {
@@ -120,7 +138,7 @@ label.login {
   font-size: 22px;
 }
 
-label.req {
+label span.req {
   margin: 2px;
   color: #1ab188;
 }
@@ -173,6 +191,17 @@ textarea {
   margin-bottom: 45px;
 }
 
+.logout{
+  float: right;
+}
+a.logout-button{
+  font-size: 14px;
+  margin-right: 16px;
+  line-height: 40px;
+  vertical-align: middle;
+  text-decoration: none;
+}
+
 .top-row:after {
   content: "";
   display: table;
@@ -202,6 +231,7 @@ textarea {
   transition: all 0.5s ease;
   -webkit-appearance: none;
 }
+
 .button:hover, .button:focus {
   background: #FF5575;
   cursor: pointer;
@@ -487,10 +517,6 @@ li.price {
 
 .fa-icon {
   margin-right: 4px;
-}
-
-.add:hover{
-  background: #0067AF;
 }
 
 .add a {

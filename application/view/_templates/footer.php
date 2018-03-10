@@ -31,7 +31,36 @@
             "onclick": function(){location.reload();}
         }
 
-        var navbar = document.getElementById("navbar");
+        /* Login input transition */
+        $('.field-wrap1 input').focus(function () {
+            var $this = $(this),
+            label = $this.prev('label');
+            label.addClass('active highlight');
+        }).blur(function () {
+            var $this = $(this),
+            label = $this.prev('label');
+            if( $this.val() === '' ) {
+                label.removeClass('active highlight'); 
+            } else {
+                label.removeClass('highlight');   
+            }
+        });
+
+        $('.field-wrap2 input').focus(function () {
+            var $this = $(this),
+            label = $this.prev('label');
+            label.addClass('active highlight');
+        }).blur(function () {
+            var $this = $(this),
+            label = $this.prev('label');
+            if( $this.val() === '' ) {
+                label.removeClass('active highlight'); 
+            } else {
+                label.removeClass('highlight');   
+            }
+        });
+
+        var navbar =  $("#navbar");
         var sticky = navbar.offsetTop;
         var orders = {};
 
