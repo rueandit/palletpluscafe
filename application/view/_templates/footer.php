@@ -176,7 +176,6 @@
         }
 
         $('.btn-order-action').click(function(){
-            debugger;
             $.ajax({
                 url: "/orders/ajaxUpdateOrderStatus",
                 method:"POST",
