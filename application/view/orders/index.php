@@ -42,8 +42,15 @@
                             <div><input type="text" name="menuName" value="<?php echo $menuName;?>" /></div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 input-item">
-                            <div><label >Status</label></div>
-                            <div><input type="text" name="status" value="<?php echo $status;?>" /></div>
+                            <div><label>Status</label></div>
+                            <div>
+                                <select id="status" name="status" value="">
+                                <option value=""></option>
+                                <?php foreach (OrderStatus::getList() as $status) { ?>
+                                    <option value="<?php echo $status ?>">
+                                    <?php echo $status; }?></option>
+                                </select>
+                            </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 input-item">
                             <div><label >Paid</label></div>

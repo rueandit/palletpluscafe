@@ -62,11 +62,25 @@ class Orders extends Controller
         // getting all orders and amount of orders
         $amount_of_orders = $this->model->getAmountOfOrders();
 
+        //change views per user type
+        switch ($_SESSION['user_type']) {
+            case UserType::waiter:
+                require APP . 'view/orders/waiter_index.php';
+                break;
+            case UserType::kitchen:
+                require APP . 'view/orders/kitchen_index.php';
+                break;
+            case UserType::cashier:
+                require APP . 'view/orders/cashier_index.php';
+                break;
+            default:
+                require APP . 'view/orders/index.php';
+        }
+
        // load views. within the views we can echo out $orders and $amount_of_orders easily
         require APP . 'view/_templates/header.php';
         require APP . 'view/_templates/navigation.php';
         require APP . 'view/_templates/sidebar.php';
-        require APP . 'view/orders/index.php';
         require APP . 'view/_templates/footer.php';
     }
 
@@ -211,16 +225,31 @@ class Orders extends Controller
     public function ajaxGetStats()
     {
         Helper::authenticate();
-        Helper::authorize("orders/ajaxGetStats");
         $amount_of_orders = $this->model->getAmountOfOrders();
-
-        // simply echo out something. A supersimple API would be possible by echoing JSON here
         echo $amount_of_orders;
     }
 
     public function ajaxGetNewPendingOrders(){
-        $pending_orders_count = $this->model->getNewPendingOrders();
-        echo '"'. $pending_orders_count . '"';
+        Helper::authenticate();
+        $orders_count = $this->model->getNewPendingOrders();
+        echo '"'. $orders_count . '"';
+    }
+
+    public function ajaxGetNewReadyOrders(){
+        Helper::authenticate();
+        $orders_count = $this->model->getNewReadyOrders();
+        echo '"'. $orders_count . '"';
+    }
+
+    public function ajaxGetNewPaymentOrders(){
+        Helper::authenticate();
+        $orders_count = $this->model->getNewPaymentOrders();
+        echo '"'. $orders_count . '"';
+    }
+
+    public function ajaxUpdateOrderStatus(){
+        Helper::authenticate();
+        $this->model->updateOrderStatus($_POST["id"], $_POST["status"]);
     }
 
 }

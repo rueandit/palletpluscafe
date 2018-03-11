@@ -60,7 +60,7 @@
             }
         });
 
-        var navbar =  $("#navbar");
+        var navbar =  $("#navbar")[0];
         var sticky = navbar.offsetTop;
         var orders = {};
 
@@ -129,11 +129,12 @@
             alert(JSON.stringify(orders));
         });
 
+        ///TO DO: refactor scripts to be modular
         //orders screen
-        function notifyIncomingOrders(){
+        function notifyPendingOrders(){
             $.ajax({
                 url: "/orders/ajaxGetNewPendingOrders",
-                method:"POST",
+                method:"GET",
                 dataType:"json",
                 success:function(data){
                             if(parseInt(data) > 0){
@@ -151,6 +152,64 @@
                 }
             });
         }
+
+        function notifyNewReadyOrders(){
+            $.ajax({
+                url: "/orders/ajaxGetNewReadyOrders",
+                method:"GET",
+                dataType:"json",
+                success:function(data){
+                            if(parseInt(data) > 0){
+                                if(parseInt(data) > 1){
+                                    toastr["info"](data + " new orders ready for serving! Click here to see updates.")
+                                }
+                                else{
+                                    toastr["info"]("New order ready for serving! Click here to see updates.")
+                                }
+
+                            }
+                        },
+                error:function(data){
+                    console.error(data);
+                }
+            });
+        }
+
+        function notifyNewPaymentOrders(){
+            $.ajax({
+                url: "/orders/ajaxGetNewPaymentOrders",
+                method:"GET",
+                dataType:"json",
+                success:function(data){
+                            if(parseInt(data) > 0){
+                                if(parseInt(data) > 1){
+                                    toastr["info"](data + " new orders ready for payment! Click here to see updates.")
+                                }
+                                else{
+                                    toastr["info"]("New order ready for payment! Click here to see updates.")
+                                }
+
+                            }
+                        },
+                error:function(data){
+                    console.error(data);
+                }
+            });
+        }
+
+        $('.btn-order-action').click(function(){
+            $.ajax({
+                url: "/orders/ajaxUpdateOrderStatus",
+                method:"POST",
+                data: {status: $(this).data('action'), id: $(this).data('id')},
+                success:function(data){
+                            location.reload();
+                        },
+                error:function(data){
+                    console.error(data);
+                }
+            });
+        });
 
         <?php Helper::enableNotification() ?>
     });

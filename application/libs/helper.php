@@ -64,8 +64,7 @@ class Helper
         }
     }
     
-    ///TO DO
-    /// refactor:
+    ///TO DO: refactor...
     ///         move to a separate class if necessary
     ///         evaluate the need for creating enum or storing permissions to DB
     ///         validation is at page level, buttons to initialize functionality will still show (i.e. add button)
@@ -147,19 +146,29 @@ class Helper
         }
     }
 
-    ///TO DO: 
-    ///user order different than admin order
-    ///modify ui/ux of toastr
-    ///make status enum
-    ///reload table
+    ///TO DO: filtering of different order views
     static public function enableNotification(){
         if(isset($_SESSION['user_type'])) {
-            if($_SESSION['user_type'] == UserType::waiter || $_SESSION['user_type'] == UserType::kitchen || $_SESSION['user_type'] == UserType::cashier){
+            if($_SESSION['user_type'] == UserType::kitchen){
                 echo 'setInterval(function(){
                     if($("#orders").length > 0){
-                        notifyIncomingOrders();
+                        notifyPendingOrders();
                     }
-                }, 10000);';
+                }, 30000);';
+            }
+            else if($_SESSION['user_type'] == UserType::waiter){
+                echo 'setInterval(function(){
+                    if($("#orders").length > 0){
+                        notifyNewReadyOrders();
+                    }
+                }, 30000);';
+            }
+            else if($_SESSION['user_type'] == UserType::cashier){
+                echo 'setInterval(function(){
+                    if($("#orders").length > 0){
+                        notifyNewPaymentOrders();
+                    }
+                }, 30000);';
             }
         }
     }
