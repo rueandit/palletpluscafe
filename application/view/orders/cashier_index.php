@@ -54,7 +54,7 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 input-item input-button">
-                            <button class="primary-button" type="submit" name="submit_search_order" ><i class="fas fa-check display-icon"></i>Submit</button>
+                            <button class="primary-button" type="submit" name="submit_limited_search_order" ><i class="fas fa-check display-icon"></i>Submit</button>
                         </div>
                     </div>
                 </div> 

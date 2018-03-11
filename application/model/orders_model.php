@@ -53,6 +53,54 @@ class Model
         return $query->fetchAll();
     }
 
+    public function getViewFilteredOrders($tableId, $menuName, $status, $createdDate)
+    {
+        if($tableId == '') { $tableId = 'NULL'; } else {$tableId = "'".$tableId."'";}
+        if($menuName == '') { $nqmenuName = 'NULL'; $menuName = 'NULL'; } else {$nqmenuName = $menuName; $menuName = "'".$menuName."'";}
+        if($status == '') { $nqstatus = 'NULL'; $status = 'NULL'; } else {$nqstatus = $status; $status = "'".$status."'";}
+        if($createdDate == '') { $createdDate = 'NULL'; } else {$createdDate = "'".$createdDate."'";}
+        
+        $sql = "SELECT
+                    orders.id,
+                    menu.id AS menuId,
+                    menu.menuName,
+                    orders.status,
+                    CASE WHEN orders.paid = 0 THEN 'False' ELSE 'True' END AS paid,
+                    CASE WHEN orders.cash = 0 THEN 'False' ELSE 'True' END AS cash,
+                    customer_table.id AS tableId,
+                    customer_table.name AS tableName,
+                    orders_log.createdDate,
+                    orders_log.modifiedDate,
+                    users.id AS userId,
+                    users.username AS modifiedBy,
+                    CASE WHEN orders.archived = 0 THEN 'False' ELSE 'True' END AS archived
+                FROM `orders`
+                LEFT JOIN orders_log
+                ON orders_log.orderId = orders.id
+                INNER JOIN menu
+                ON menu.id = orders.menuId
+                INNER JOIN customer_table
+                ON customer_table.id = orders.tableId
+                LEFT JOIN users
+                ON users.id = orders_log.modifiedBy
+                WHERE (".$menuName." IS NULL OR menu.menuName LIKE '%".$nqmenuName."%')
+                    AND (".$status." IS NULL OR orders.status LIKE '%".$nqstatus."%')
+                    AND (".$createdDate." IS NULL OR orders_log.createdDate = ".$createdDate.")
+                    AND (".$tableId." IS NULL OR orders.tableId = ".$tableId.")
+                ";
+        $query = $this->db->prepare($sql);
+
+        $query->execute();
+        
+        // fetchAll() is the PDO method that gets all result rows, here in object-style because we defined this in
+        // core/controller.php! If you prefer to get an associative array as the result, then do
+        // $query->fetchAll(PDO::FETCH_ASSOC); or change core/controller.php's PDO options to
+        // $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ...
+
+        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        return $query->fetchAll();
+    }
+
     /**
      * Get all orders from database based on filters
      */

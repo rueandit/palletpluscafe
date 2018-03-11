@@ -46,6 +46,19 @@ class Orders extends Controller
                 $_POST["archived"]
             );
         }
+        else if (isset($_POST["submit_limited_search_order"])) {
+                $tableId = $_POST["tableId"];
+                $menuName = $_POST["menuName"];  
+                $status = $_POST["status"];
+                $createdDate = $_POST["createdDate"];
+                
+            $orders = $this->model->getViewFilteredOrders(
+                $_POST["tableId"],
+                $_POST["menuName"],
+                $_POST["status"],
+                $_POST["createdDate"]
+            );
+        }
         else{
             $orders = $this->model->getAllOrders();
             $tableId = '';
