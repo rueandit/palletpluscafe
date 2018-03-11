@@ -823,6 +823,54 @@ img.menu-thumbnail {
   display: none;
 }
 
+.my-orders-content {
+  max-width: 960px;
+  border-radius: 5px;
+  margin: 16px auto;
+  padding: 16px;
+  background: #ffffff;
+  box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+}
 
+.table-name{
+  width: 100%;
+  font-size: 20px;
+  background: #1ab188;
+  color: #ffffff;
+  padding: 4px;
+  border-radius: 5px;
+  text-align: center;
+}
+.my-orders-content td {
+  border-bottom: 2px dotted #FF5566;
+}
 
+.my-orders-content img, .order-photo{
+  width: 64px;
+  height: 64px;
+  border-bottom: none;
+}
 
+.my-orders-content thead, td.total {
+  font-size: 18px;
+  border: none;
+  font-weight: normal;
+  background: transparent;
+  color: #1ab188;
+}
+
+.my-orders-content thead td, td.total{
+  font-size: 18px;
+  height: 64px;
+}
+
+.my-orders-content td {
+  border: none;
+  font-size: 13px;
+  background: transparent;
+}
+
+td.total {
+  font-weight: bold;
+  color: #C00000;
+}

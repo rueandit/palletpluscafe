@@ -137,6 +137,7 @@ class Helper
                         $isAuthorized = false;
                     }
                     break;
+                case "myOrders/index":
             }
         }
 
@@ -155,7 +156,6 @@ class Helper
         if(isset($_SESSION['user_type'])) {
             if($_SESSION['user_type'] == UserType::waiter || $_SESSION['user_type'] == UserType::kitchen || $_SESSION['user_type'] == UserType::cashier){
                 echo 'setInterval(function(){
-                    debugger;
                     if($("#orders").length > 0){
                         notifyIncomingOrders();
                     }
@@ -189,9 +189,12 @@ class Helper
                     <a href="'. URL . 'reports"><i class="fas fa-chart-bar display-icon"></i> Reports</a>';
                     break;
                 case UserType::waiter:
+                    echo '<a href="'. URL . 'myOrders"><i class="fas fa-clipboard-list display-icon"></i> My Orders</a>';
+                    break;
                 case UserType::cashier:
                     echo '<a href="'. URL . 'menus"><i class="fas fa-utensils display-icon"></i> Menu</a>
-                    <a href="'. URL . 'orders"><i class="fas fa-clipboard-list display-icon"></i> Orders</a>';
+                    <a href="'. URL . 'orders"><i class="fas fa-clipboard-list display-icon"></i> Orders</a>
+                    <a href="'. URL . 'myOrders"><i class="fas fa-clipboard-list display-icon"></i> My Orders</a>';
                     break;
                 case UserType::kitchen:
                     echo '<a href="'. URL . 'orders"><i class="fas fa-clipboard-list display-icon"></i> Orders</a>
