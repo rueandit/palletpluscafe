@@ -133,7 +133,7 @@
         //orders screen
         function notifyPendingOrders(){
             $.ajax({
-                url: "/orders/ajaxGetNewPendingOrders",
+                url: "/palletpluscafe/orders/ajaxGetNewPendingOrders",
                 method:"GET",
                 dataType:"json",
                 success:function(data){
@@ -155,7 +155,7 @@
 
         function notifyNewReadyOrders(){
             $.ajax({
-                url: "/orders/ajaxGetNewReadyOrders",
+                url: "/palletpluscafe/orders/ajaxGetNewReadyOrders",
                 method:"GET",
                 dataType:"json",
                 success:function(data){
@@ -177,7 +177,7 @@
 
         function notifyNewPaymentOrders(){
             $.ajax({
-                url: "/orders/ajaxGetNewPaymentOrders",
+                url: "/palletpluscafe/orders/ajaxGetNewPaymentOrders",
                 method:"GET",
                 dataType:"json",
                 success:function(data){
@@ -199,7 +199,7 @@
 
         $('.btn-order-action').click(function(){
             $.ajax({
-                url: "/orders/ajaxUpdateOrderStatus",
+                url: "/palletpluscafe/orders/ajaxUpdateOrderStatus",
                 method:"POST",
                 data: {status: $(this).data('action'), id: $(this).data('id')},
                 success:function(data){
