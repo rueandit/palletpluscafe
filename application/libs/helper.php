@@ -146,7 +146,6 @@ class Helper
         }
     }
 
-    ///TO DO: filtering of different order views
     static public function enableNotification(){
         if(isset($_SESSION['user_type'])) {
             if($_SESSION['user_type'] == UserType::kitchen){
