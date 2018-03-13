@@ -438,4 +438,50 @@ class Model
         // $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ...
         return $query->fetchAll();
     }
+
+    public function getIngredientUpdate($order_id){
+        $sql = "SELECT 
+                i.amount - m.amount AS newIngredientCount,
+                i.id AS ingredientId
+                FROM orders o
+                INNER JOIN menu_ingredient m on o.menuId = m.menuId
+                INNER JOIN ingredient i on m.ingredientId = i.id
+                WHERE o.id = ". $order_id;
+        $query = $this->db->prepare($sql);
+        $query->execute();
+
+        return $query->fetchAll();
+    }
+
+    public function updateIngredientCount($ingredient_id, $new_amount){
+        
+        $sql = "UPDATE ingredient
+                SET amount = :new_amount
+                WHERE id = :ingredient_id";
+        
+        $query = $this->db->prepare($sql);
+        $parameters = array(
+            ':new_amount' => $new_amount, 
+            ':ingredient_id' => $ingredient_id
+            );
+
+        // useful for debugging: you can see the SQL behind above construction by using:
+        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+
+        $query->execute($parameters);
+    }
+
+    public function updateIngredientsInventory($order_id){
+        $orderDetails = $this->getIngredientUpdate($order_id);
+
+        if(count($orderDetails) > 0){
+            if (isset($orderDetails[0]->ingredientId)){
+                $this->updateIngredientCount($orderDetails[0]->ingredientId,$orderDetails[0]->newIngredientCount);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

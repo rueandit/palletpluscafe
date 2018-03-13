@@ -322,7 +322,7 @@ CREATE TABLE `menu_ingredient` (
 --
 -- Dumping data for table `menu_ingredient`
 --
-
+-- TO DO: populate with correct data
 INSERT INTO `menu_ingredient` (`id`, `ingredientId`, `menuId`, `amount`, `archived`) VALUES
 (1, 2, 1, '4', 0),
 (2, 2, 1, '1', 1),
