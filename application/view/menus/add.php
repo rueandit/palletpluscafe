@@ -3,7 +3,7 @@
             <div class="title"><i class="fas fa-utensils display-icon"></i>Add Menu Item</div>
         </div>
         <div class="add-edit" id="add-edit">
-                <form action="<?php echo URL; ?>menus/submitmenu" method="POST">
+                <form action="<?php echo URL; ?>menus/submitmenu" method="POST" enctype="multipart/form-data">
                     <div class="container">
                         <div class="row">
                             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 input-item" >
@@ -91,7 +91,7 @@
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-3  col-lg-3 input-item">
                                 <div><label >Photo</label></div>
-                                <div><input type="text" name="imageFile" value="" required/></div>
+                                <div><input type="file" name="fileToUpload" id="fileToUpload" accept=".png,.jpg,.jpeg,.gif" required/></div>
                             </div>
                         </div>
                         <div class="row">

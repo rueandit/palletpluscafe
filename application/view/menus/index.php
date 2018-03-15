@@ -141,7 +141,7 @@
                 <tbody>
                 <?php foreach ($menus as $menu) { ?>
                     <tr>
-                        <td class="menu-thumbnail"><img src="<?php echo URL; ?>img/bf1.jpg" class="menu-thumbnail"/></td>
+                        <td class="menu-thumbnail"><img src="<?php if($menu->imageFileName == "") {$filename = "no-image.png";} else {$filename = $menu->imageFileName;} echo URL . "img/" . $filename; ?>" class="menu-thumbnail"/></td>
                         <td ><?php if (isset($menu->menuName)) echo htmlspecialchars($menu->menuName, ENT_QUOTES, 'UTF-8'); ?></td>
                         <td class="td-medium"><?php if (isset($menu->menuDescription)) echo htmlspecialchars($menu->menuDescription, ENT_QUOTES, 'UTF-8'); ?></td>
                         <td class="td-small"><?php if (isset($menu->menuStatus)) echo htmlspecialchars($menu->menuStatus, ENT_QUOTES, 'UTF-8'); ?></td>

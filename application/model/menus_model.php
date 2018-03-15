@@ -29,12 +29,17 @@ class Model
                 CASE WHEN menu.archived = 0 THEN 'False' ELSE 'True' END AS archived,
                 menu_category.description as category,
                 subCategory,
-                menu_allergen.description as allergen
+                menu_allergen.description as allergen,
+                i.name as imageFileName,
+                menu.imageFile as imageFileId
                 FROM menu
                 INNER JOIN menu_category
                 ON menu_category.id = menu.categoryId
                 INNER JOIN menu_allergen
-                ON menu_allergen.id = menu.allergenId";
+                ON menu_allergen.id = menu.allergenId
+                LEFT JOIN images i
+                ON menu.imageFile = i.id
+                ";
         $query = $this->db->prepare($sql);
         $query->execute();
 
@@ -71,12 +76,16 @@ class Model
                 CASE WHEN menu.archived = 0 THEN 'False' ELSE 'True' END AS archived,
                 menu_category.description as category,
                 subCategory,
-                menu_allergen.description as allergen
+                menu_allergen.description as allergen,
+                i.name as imageFileName,
+                menu.imageFile as imageFileId
                 FROM menu
                 INNER JOIN menu_category
                 ON menu_category.id = menu.categoryId
                 INNER JOIN menu_allergen
                 ON menu_allergen.id = menu.allergenId
+                LEFT JOIN images i
+                ON menu.imageFile = i.id
                 WHERE (".$menuName." IS NULL OR menuName LIKE '%".$nqmenuName."%')
                     AND (".$menuDescription." IS NULL OR menuDescription LIKE '%".$nqmenuDescription."%')
                     AND (".$menuStatus." IS NULL OR menuStatus = ".$menuStatus.")
@@ -164,6 +173,30 @@ class Model
         $query->execute($parameters);
     }
 
+    /// TO DO: Error message on upload
+    public function uploadFile($imgData,$imageProperties,$fileName){
+
+        $sql = "INSERT INTO images (
+                            name, 
+                            description, 
+                            imageFile
+                            ) 
+                            VALUES (
+                            :fileName, 
+                            :imageProperties, 
+                            :imgData)";
+                    $query = $this->db->prepare($sql);
+
+                    $query->bindParam(':fileName',$fileName);
+                    $query->bindParam(':imageProperties',$fileName);
+                    $query->bindParam(':imgData',$imgData, PDO::PARAM_LOB);
+
+                    $query->execute();
+
+        // fetch() is the PDO method that get exactly one result
+        return $this->db->lastInsertId();
+    }
+
     /**
      * Delete a menu in the database
      * Please note: this is just an example! In a real application you would not simply let everybody
@@ -198,12 +231,15 @@ class Model
                 menu_category.id as category,
                 subCategory,
                 menu_allergen.id as allergen,
-                imageFile
+                i.name as imageFileName,
+                menu.imageFile as imageFileId
                 FROM menu
                 INNER JOIN menu_category
                 ON menu_category.id = menu.categoryId
                 INNER JOIN menu_allergen
                 ON menu_allergen.id = menu.allergenId
+                LEFT JOIN images i
+                ON menu.imageFile = i.id
                 WHERE menu.id = :menu_id LIMIT 1";
         $query = $this->db->prepare($sql);
         $parameters = array(':menu_id' => $menu_id);

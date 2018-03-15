@@ -3,7 +3,7 @@
             <div class="title"><i class="fas fa-utensils display-icon"></i>Edit Menu Item</div>
         </div>
         <div class="add-edit" id="add-edit">
-                <form action="<?php echo URL; ?>menus/updatemenu" method="POST">
+                <form action="<?php echo URL; ?>menus/updatemenu" method="POST" enctype="multipart/form-data">
                     <div class="container">
                         <div class="row">
                             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 input-item" >
@@ -98,8 +98,10 @@
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-3  col-lg-3 input-item">
                                 <div><label >Photo</label></div>
-                                <div><input type="text" name="imageFile" 
-                                value="<?php if (isset($menu->allergen)) echo htmlspecialchars($menu->allergen, ENT_QUOTES, 'UTF-8'); ?>" required/></div>
+                                <div>
+                                    <input type='hidden' name='imageFileId' value='<?php echo $menu->imageFileId ?>'/>
+                                    <img src="<?php if($menu->imageFileName == "") {$filename = "no-image.png";} else {$filename = $menu->imageFileName;} echo URL . "img/" . $filename; ?>" class="menu-thumbnail"/>
+                                <div><input type="file" name="fileToUpload" id="fileToUpload"  accept=".png,.jpg,.jpeg,.gif"/></div>
                             </div>
                         </div>
                         <div class="row">
