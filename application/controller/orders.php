@@ -262,8 +262,13 @@ class Orders extends Controller
 
     public function ajaxUpdateOrderStatus(){
         Helper::authenticate();
-        $success = $this->model->updateIngredientsInventory($_POST["id"]);
-        if($success){
+        if($_POST["status"] == OrderStatus::complete){
+            $continue = $this->model->updateIngredientsInventory($_POST["id"]);
+        }
+        else{
+            $continue = true;
+        }
+        if($continue){
             $this->model->updateOrderStatus($_POST["id"], $_POST["status"]);
         }
     }

@@ -37,8 +37,15 @@
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3  col-lg-3 input-item">
-                        <div><label >Status</label></div>
-                        <div><input type="text" name="status" value="<?php echo $order->status;?>" /></div>
+                        <div><label>Status</label></div>
+                        <div>
+                            <select id="status" name="status" value="">
+                            <option value=""></option>
+                            <?php foreach (OrderStatus::getList() as $status) { ?>
+                                <option value="<?php echo $status;?>" <?php if (strtolower(rtrim(ltrim($order->status))) == strtolower(rtrim(ltrim($status)))) {echo 'selected';} ?>>
+                                <?php echo $status; }?></option>
+                            </select>
+                        </div>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3  col-lg-3 input-item">
                         <div><label >Paid</label></div>
