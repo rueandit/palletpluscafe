@@ -203,13 +203,11 @@ class Helper
                 case UserType::waiter:
                     echo '<a href="'. URL . 'menus"><i class="fas fa-utensils display-icon"></i> Menu</a>
                     <a href="'. URL . 'orders"><i class="fas fa-clipboard-list display-icon"></i>Orders</a>
-                    <a href="'. URL . 'myOrders"><i class="fas fa-clipboard-list display-icon"></i> My Orders</a>
                     <a href="'. URL . 'menus/customerIndex"><i class="fas fa-clipboard-list display-icon"></i> New Orders</a>';
                     break;
                 case UserType::cashier:
                     echo '<a href="'. URL . 'menus"><i class="fas fa-utensils display-icon"></i> Menu</a>
-                    <a href="'. URL . 'orders"><i class="fas fa-clipboard-list display-icon"></i> Orders</a>
-                    <a href="'. URL . 'myOrders"><i class="fas fa-clipboard-list display-icon"></i> My Orders</a>';
+                    <a href="'. URL . 'orders"><i class="fas fa-clipboard-list display-icon"></i> Orders</a>';
                     break;
                 case UserType::kitchen:
                     echo '<a href="'. URL . 'orders"><i class="fas fa-clipboard-list display-icon"></i> Orders</a>

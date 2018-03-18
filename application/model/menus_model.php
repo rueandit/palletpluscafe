@@ -131,12 +131,16 @@ class Model
                 CASE WHEN menu.archived = 0 THEN 'False' ELSE 'True' END AS archived,
                 menu_category.description as category,
                 subCategory,
-                menu_allergen.description as allergen
+                menu_allergen.description as allergen,
+                i.name as imageFileName,
+                menu.imageFile as imageFileId
                 FROM menu
                 INNER JOIN menu_category
                 ON menu_category.id = menu.categoryId
                 INNER JOIN menu_allergen
                 ON menu_allergen.id = menu.allergenId
+                LEFT JOIN images i
+                ON menu.imageFile = i.id
                 WHERE (".$rating." IS NULL OR rating = ".$rating.")
                     AND (".$categoryId." IS NULL OR categoryId = ".$categoryId.")
                     AND (menu.archived != 1)

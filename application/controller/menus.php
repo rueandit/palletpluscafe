@@ -84,13 +84,14 @@ class Menus extends Controller
     
         $tables = $this->model->getAllTables();
 
-        if (isset($_POST["orders"]) || isset($_POST["go_back"])){
+        if (isset($_POST["orders"])){
             $_SESSION["orders"] = $_POST["orders"];
-            $_SESSION["tableId"] = $_POST["tableId"];
+        }
 
-            if (isset($_POST["go_back"])){
-                $_SESSION["tableDescription"] = $_POST["tableDescription"];
-            }
+        if (isset($_POST["go_back"])){
+            $_SESSION["orders"] = $_POST["confirmOrders"];
+            $_SESSION["tableId"] = $_POST["confirmTableId"];
+            $_SESSION["tableDescription"] = $_POST["tableDescription"];
         }
 
         if (isset($_SESSION["orders"])){

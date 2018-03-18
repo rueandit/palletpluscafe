@@ -39,16 +39,22 @@
         </div>
         <div class="menu-add-order">
             <div class ="row cancel-confirm">
+                <form action="<?php echo URL; ?>menus/customerIndex" method="POST">
+                    <input type="hidden" id="ordersTemp" name="confirmOrders" value='<?php echo $temp; ?>' />
+                    <input type="hidden" id="tableId" name="confirmTableId" value='<?php echo $tableId; ?>' />
+                    <input type="hidden" id="tableDescription" name="tableDescription" value='<?php echo $tableDescription; ?>' />
+                
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 no-padding">
+                        <button class="cancel-orders" type="submit" name="go_back"><i class="fas fa-plus-circle display-icon"></i>Go Back</button>
+                    </div>
+                </form>
                 <form action="<?php echo URL; ?>orders/confirmOrders" method="POST">
-                <input type="hidden" id="ordersTemp" name="confirmOrders" value='<?php echo $temp; ?>' />
-                <input type="hidden" id="tableId" name="confirmTableId" value='<?php echo $tableId; ?>' />
-                <input type="hidden" id="tableDescription" name="tableDescription" value='<?php echo $tableDescription; ?>' />
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 no-padding">
-                    <button class="cancel-orders" type="submit" name="go_back"><i class="fas fa-plus-circle display-icon"></i>Go Back</button>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 no-padding">
-                    <button class="add-orders" type="submit" name="submit_confirm_orders"><i class="fas fa-plus-circle display-icon"></i>Confirm Orders</button>
-                </div>
+                    <input type="hidden" id="ordersTemp" name="confirmOrders" value='<?php echo $temp; ?>' />
+                    <input type="hidden" id="tableId" name="confirmTableId" value='<?php echo $tableId; ?>' />
+                    <input type="hidden" id="tableDescription" name="tableDescription" value='<?php echo $tableDescription; ?>' />
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 no-padding">
+                        <button class="add-orders" type="submit" name="submit_confirm_orders"><i class="fas fa-plus-circle display-icon"></i>Confirm Orders</button>
+                    </div>
                 </form>
             </div>
         </div>

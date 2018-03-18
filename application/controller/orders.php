@@ -245,11 +245,15 @@ class Orders extends Controller
             $orders = json_decode($_POST["ordersAdd"]);
         }
 
-        require APP . 'view/_templates/header.php';
-        require APP . 'view/_templates/navigation.php';
-        require APP . 'view/_templates/sidebar.php';
-        require APP . 'view/orders/placeOrder.php';
-        require APP . 'view/_templates/footer.php';
+        if(!is_null($orders)){
+            require APP . 'view/_templates/header.php';
+            require APP . 'view/_templates/navigation.php';
+            require APP . 'view/_templates/sidebar.php';
+            require APP . 'view/orders/placeOrder.php';
+            require APP . 'view/_templates/footer.php';
+        }else{
+            header('location: ' . URL . 'menus/customerIndex');
+        }
     }
 
     public function confirmOrders()

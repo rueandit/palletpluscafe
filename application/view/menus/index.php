@@ -9,7 +9,7 @@
                 </div>
                 <div class="add">
                     <form action="<?php echo URL; ?>menus/addMenu" method="POST">
-                        <button class="primary-button" type="submit" name="submit_add_menu"><i class="fas fa-plus-circle display-icon"></i>Add</button>
+                        <button class="primary-button <?php if ($_SESSION['user_type'] !== 'admin') echo 'no-display';?>" type="submit" name="submit_add_menu"><i class="fas fa-plus-circle display-icon"></i>Add</button>
                     </form> 
                 </div>
             </div>
@@ -135,7 +135,7 @@
                     <td class="td-medium">Category</td>
                     <td class="td-medium">Sub Category</td>
                     <td class="td-medium">Allergen</td>
-                    <td>Actions</td>
+                    <td class="<?php if ($_SESSION['user_type'] !== 'admin') echo 'no-display';?>">Actions</td>
                 </tr>
                 </thead>
                 <tbody>
@@ -151,7 +151,7 @@
                         <td class="td-medium"><?php if (isset($menu->category)) echo htmlspecialchars($menu->category, ENT_QUOTES, 'UTF-8'); ?></td>
                         <td class="td-medium"><?php if (isset($menu->subCategory)) echo htmlspecialchars($menu->subCategory, ENT_QUOTES, 'UTF-8'); ?></td>
                         <td class="td-medium"><?php if (isset($menu->allergen)) echo htmlspecialchars($menu->allergen, ENT_QUOTES, 'UTF-8'); ?></td>
-                        <td>
+                        <td class="<?php if ($_SESSION['user_type'] !== 'admin') echo 'no-display';?>">
                             <a class="list-action" href="<?php echo URL . 'menus/editmenu/' . htmlspecialchars($menu->id, ENT_QUOTES, 'UTF-8'); ?>"><i class="fas fa-edit display-icon"></i></a>
                         </td>
                     </tr>

@@ -134,7 +134,6 @@
         $('input[type=text]#counter-' + menuId).val(quantity);
         $('input[type=hidden]#orders').val(JSON.stringify(orders));
         $('input[type=hidden]#ordersAdd').val(JSON.stringify(orders));
-        console.log(JSON.stringify(orders));
         });
         
         $('button.decrease').click(function(e){
@@ -160,13 +159,13 @@
         
         $('input[type=hidden]#orders').val(JSON.stringify(orders));
         $('input[type=hidden]#ordersAdd').val(JSON.stringify(orders));
-        console.log(JSON.stringify(orders));
         });
 
         $("#tableId").change(function(){
             $('input[type=hidden]#ordersTableId').val($('#tableId').val());
             $('input[type=hidden]#ordersTableDescription').val($('#tableId').find('option:selected').text());
         });
+
         ///TO DO: refactor scripts to be modular
         //orders screen
         function notifyPendingOrders(){

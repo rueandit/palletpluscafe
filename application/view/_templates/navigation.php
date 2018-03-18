@@ -10,7 +10,7 @@
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <div class="navbar-right logout">
-                    <?php if (isset($_SESSION["username"])) echo '<a href="'. URL. 'login/userlogout" class="logout-button"><i class="fas fa-sign-out-alt"></i>Logout</a>' ?>
+                    <?php if (isset($_SESSION["username"])) echo '<a href="'. URL. 'login/userlogout" class="logout-button">Welcome '.$_SESSION["username"].'! &nbsp;&nbsp; <i class="fas fa-sign-out-alt"></i>Logout</a>' ?>
                 </div>
             </div>
         </div>

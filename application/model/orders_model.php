@@ -384,9 +384,7 @@ class Model
     }
     
     public function getOrdersToComplete($tableId)
-    {
-        if($tableId == '') { $tableId = 'NULL'; } else {$tableId = "'".$tableId."'";}
-        
+    {   
         $sql = "SELECT
                     orders.id,
                     customer_table.id as tableId,

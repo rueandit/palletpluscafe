@@ -63,7 +63,6 @@
         <!-- main content output -->
     
         <div class="list-content" id="orders">
-        <form action="<?php echo URL; ?>orders/ordersToComplete" method="POST">
         <table>
             <thead>
             <tr>
@@ -77,6 +76,7 @@
             <tbody>
             <?php foreach ($orders as $order) { ?>
                 <tr>
+                <form action="<?php echo URL; ?>orders/ordersToComplete" method="POST">
                     <td>
                         <input type="hidden" id="tableId" name="tableId" value='<?php if (isset($order->tableId)) echo htmlspecialchars($order->tableId, ENT_QUOTES, 'UTF-8'); ?>' />
                         <?php if (isset($order->tableName)) echo htmlspecialchars($order->tableName, ENT_QUOTES, 'UTF-8'); ?>
@@ -92,10 +92,10 @@
                           }
                         ?>
                     </td>
-                </tr>
+                    </form>
+            </tr>
             <?php } ?>
             </tbody>
         </table>
-        </form>
     </div>
 </div>
