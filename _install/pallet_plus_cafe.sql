@@ -40,21 +40,20 @@ CREATE TABLE `customer_table` (
 --
 
 INSERT INTO `customer_table` (`id`, `name`, `description`, `archived`) VALUES
-(1, 'alpha', 'alpha', 1),
-(2, 'bravo', 'bravo', 1),
-(3, 'charlie', 'charlie', 1),
-(4, 'delta', 'delta', 1),
-(5, 'echo', 'echo', 1),
-(6, 'foxtrot', 'foxtrot', 0),
-(7, 'golf', 'golf', 0),
-(8, 'hotel', 'hotel', 0),
-(9, 'india', 'india', 0),
-(10, 'juliet', 'juliet', 0),
-(11, 'kilo', 'kilo', 0),
-(12, 'lima', 'lima', 0),
-(13, 'mike', 'mike', 0),
-(14, 'november', 'november', 0),
-(15, 'test', 'test', 0);
+(1, 'Alpha', 'Alpha', 1),
+(2, 'Bravo', 'Bravo', 1),
+(3, 'Charlie', 'Charlie', 1),
+(4, 'Delta', 'Delta', 1),
+(5, 'Echo', 'Echo', 1),
+(6, 'Foxtrot', 'Foxtrot', 0),
+(7, 'Golf', 'Golf', 0),
+(8, 'Hotel', 'Hotel', 0),
+(9, 'India', 'India', 0),
+(10, 'Juliet', 'Juliet', 0),
+(11, 'Kilo', 'Kilo', 0),
+(12, 'Lima', 'Lima', 0),
+(13, 'Mike', 'Mike', 0),
+(14, 'November', 'November', 0);
 
 -- --------------------------------------------------------
 
@@ -226,7 +225,7 @@ CREATE TABLE `menu_allergen` (
 --
 
 INSERT INTO `menu_allergen` (`id`, `code`, `description`, `archived`) VALUES
-(1, 'milky', 'Milky', 0),
+(1, 'milk', 'Milk', 0),
 (2, 'peanuts', 'Peanuts', 0),
 (3, 'eggs', 'Eggs', 0),
 (4, 'fish', 'Fish', 0),
@@ -234,8 +233,7 @@ INSERT INTO `menu_allergen` (`id`, `code`, `description`, `archived`) VALUES
 (6, 'wheat', 'Wheat', 1),
 (7, 'treenuts', 'Tree Nuts', 0),
 (8, 'others', 'Others', 0),
-(9, 'none', 'None', 0),
-(10, 'test', 'test', 0);
+(9, 'none', 'None', 0);
 
 -- --------------------------------------------------------
 
@@ -395,29 +393,6 @@ CREATE TABLE `orders` (
   `menuId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`id`, `status`, `paid`, `cash`, `archived`, `tableId`, `menuId`) VALUES
-(1, 'pending', 0, 0, 1, 1, 4),
-(2, 'pending', 0, 0, 1, 1, 2),
-(3, 'pending', 0, 0, 1, 1, 3),
-(4, 'pending', 0, 0, 1, 1, 4),
-(5, 'pending', 0, 0, 1, 1, 5),
-(6, 'pending', 0, 0, 0, 1, 5),
-(7, 'pending', 0, 0, 0, 1, 5),
-(8, 'pending', 0, 0, 0, 2, 2),
-(9, 'pending', 0, 0, 0, 2, 2),
-(10, 'pending', 0, 0, 0, 2, 3),
-(11, 'pending', 0, 0, 0, 2, 3),
-(12, 'pending', 0, 0, 0, 2, 9),
-(13, 'pending', 0, 0, 0, 2, 10),
-(14, 'pending', 0, 0, 0, 3, 11),
-(15, 'pending', 0, 0, 0, 3, 11),
-(16, 'pending', 0, 0, 0, 3, 11),
-(17, 'pending', 0, 0, 0, 3, 11);
-
 -- --------------------------------------------------------
 
 --
@@ -428,7 +403,7 @@ CREATE TABLE `orders_log` (
   `id` int(11) NOT NULL,
   `createdDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modifiedDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifiedBy` int(11) NOT NULL,
+  `modifiedBy` varchar(32) NOT NULL,
   `action` varchar(32) NOT NULL,
   `orderId` int(11) NOT NULL,
   `tableId` int(11) NOT NULL,
@@ -438,29 +413,6 @@ CREATE TABLE `orders_log` (
   `cash` tinyint(1) NOT NULL,
   `archived` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `orders_log`
---
-
-INSERT INTO `orders_log` (`id`, `createdDate`, `modifiedDate`, `modifiedBy`, `action`, `orderId`, `tableId`, `menuId`, `status`, `paid`, `cash`, `archived`) VALUES
-(1, '2018-03-01 18:38:58', '2018-03-01 18:38:58', 2, 'added', 1, 1, 2, 'pending', 0, 0, 0),
-(2, '2018-03-01 18:38:58', '2018-03-01 18:38:58', 2, 'added', 2, 1, 2, 'pending', 0, 0, 0),
-(3, '2018-03-01 18:38:58', '2018-03-01 18:38:58', 2, 'added', 3, 1, 3, 'pending', 0, 0, 0),
-(4, '2018-03-01 18:38:58', '2018-03-01 18:38:58', 2, 'added', 4, 1, 4, 'pending', 0, 0, 0),
-(5, '2018-03-01 18:38:58', '2018-03-01 18:38:58', 2, 'added', 5, 1, 5, 'pending', 0, 0, 0),
-(6, '2018-03-01 18:38:58', '2018-03-01 18:38:58', 2, 'added', 6, 1, 5, 'pending', 0, 0, 0),
-(7, '2018-03-01 18:38:58', '2018-03-01 18:38:58', 2, 'added', 7, 1, 5, 'pending', 0, 0, 0),
-(8, '2018-03-01 18:38:58', '2018-03-01 18:38:58', 2, 'added', 8, 2, 2, 'pending', 0, 0, 0),
-(9, '2018-03-01 18:38:58', '2018-03-01 18:38:58', 2, 'added', 9, 2, 2, 'pending', 0, 0, 0),
-(10, '2018-03-01 18:38:58', '2018-03-01 18:38:58', 2, 'added', 10, 2, 3, 'pending', 0, 0, 0),
-(11, '2018-03-01 18:38:58', '2018-03-01 18:38:58', 2, 'added', 11, 2, 3, 'pending', 0, 0, 0),
-(12, '2018-03-01 18:38:58', '2018-03-01 18:38:58', 2, 'added', 12, 2, 9, 'pending', 0, 0, 0),
-(13, '2018-03-01 18:38:58', '2018-03-01 18:38:58', 2, 'added', 13, 2, 10, 'pending', 0, 0, 0),
-(14, '2018-03-01 18:38:58', '2018-03-01 18:38:58', 2, 'added', 14, 3, 11, 'pending', 0, 0, 0),
-(15, '2018-03-01 18:38:58', '2018-03-01 18:38:58', 2, 'added', 15, 3, 11, 'pending', 0, 0, 0),
-(16, '2018-03-01 18:38:58', '2018-03-01 18:38:58', 2, 'added', 16, 3, 11, 'pending', 0, 0, 0),
-(17, '2018-03-01 18:38:58', '2018-03-01 18:38:58', 2, 'added', 17, 3, 11, 'pending', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -511,7 +463,7 @@ CREATE TABLE `users_log` (
   `id` int(11) NOT NULL,
   `createdDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modifiedDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifiedBy` int(11) NOT NULL,
+  `modifiedBy` varchar(32) NOT NULL,
   `action` varchar(32) NOT NULL,
   `description` varchar(1024) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -655,11 +607,7 @@ ALTER TABLE `orders`
 --
 ALTER TABLE `orders_log`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id` (`id`),
-  ADD KEY `menuId` (`menuId`),
-  ADD KEY `modifiedBy` (`modifiedBy`),
-  ADD KEY `orderId` (`orderId`),
-  ADD KEY `tableId` (`tableId`);
+  ADD KEY `id` (`id`);
 
 --
 -- Indexes for table `users`
@@ -768,13 +716,13 @@ ALTER TABLE `menu_log`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `orders_log`
 --
 ALTER TABLE `orders_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -872,20 +820,6 @@ ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`tableId`) REFERENCES `customer_table` (`id`),
   ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`menuId`) REFERENCES `menu` (`id`);
 
---
--- Constraints for table `orders_log`
---
-ALTER TABLE `orders_log`
-  ADD CONSTRAINT `orders_log_ibfk_1` FOREIGN KEY (`menuId`) REFERENCES `menu` (`id`),
-  ADD CONSTRAINT `orders_log_ibfk_2` FOREIGN KEY (`modifiedBy`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `orders_log_ibfk_3` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`),
-  ADD CONSTRAINT `orders_log_ibfk_4` FOREIGN KEY (`tableId`) REFERENCES `customer_table` (`id`);
-
---
--- Constraints for table `users_log`
---
-ALTER TABLE `users_log`
-  ADD CONSTRAINT `users_log_ibfk_1` FOREIGN KEY (`modifiedBy`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

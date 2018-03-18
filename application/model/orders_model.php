@@ -26,7 +26,7 @@ class Model
                     orders.status,
                     CASE WHEN orders.paid = 0 THEN 'False' ELSE 'True' END AS paid,
                     CASE WHEN orders.cash = 0 THEN 'False' ELSE 'True' END AS cash,
-                    customer_table.id AS tableId,
+                    orders_log.tableId AS tableId,
                     customer_table.name AS tableName,
                     orders_log.createdDate,
                     orders_log.modifiedDate,
@@ -34,14 +34,14 @@ class Model
                     users.username AS modifiedBy,
                     CASE WHEN orders.archived = 0 THEN 'False' ELSE 'True' END AS archived
                 FROM `orders`
-                LEFT JOIN orders_log
+                INNER JOIN orders_log
                 ON orders_log.orderId = orders.id
                 INNER JOIN menu
                 ON menu.id = orders.menuId
                 INNER JOIN customer_table
-                ON customer_table.id = orders.tableId
-                LEFT JOIN users
-                ON users.id = orders_log.modifiedBy
+                ON customer_table.id = orders_log.tableId
+                INNER JOIN users
+                ON users.username = orders_log.modifiedBy
                 ";
         $query = $this->db->prepare($sql);
         $query->execute();
@@ -67,7 +67,7 @@ class Model
                     orders.status,
                     CASE WHEN orders.paid = 0 THEN 'False' ELSE 'True' END AS paid,
                     CASE WHEN orders.cash = 0 THEN 'False' ELSE 'True' END AS cash,
-                    customer_table.id AS tableId,
+                    orders_log.tableId AS tableId,
                     customer_table.name AS tableName,
                     orders_log.createdDate,
                     orders_log.modifiedDate,
@@ -75,14 +75,14 @@ class Model
                     users.username AS modifiedBy,
                     CASE WHEN orders.archived = 0 THEN 'False' ELSE 'True' END AS archived
                 FROM `orders`
-                LEFT JOIN orders_log
+                INNER JOIN orders_log
                 ON orders_log.orderId = orders.id
                 INNER JOIN menu
                 ON menu.id = orders.menuId
                 INNER JOIN customer_table
-                ON customer_table.id = orders.tableId
-                LEFT JOIN users
-                ON users.id = orders_log.modifiedBy
+                ON customer_table.id = orders_log.tableId
+                INNER JOIN users
+                ON users.username = orders_log.modifiedBy
                 WHERE (".$menuName." IS NULL OR menu.menuName LIKE '%".$nqmenuName."%')
                     AND (".$status." IS NULL OR orders.status LIKE '%".$nqstatus."%')
                     AND (".$createdDate." IS NULL OR orders_log.createdDate = ".$createdDate.")
@@ -147,7 +147,8 @@ class Model
                     AND (".$modifiedDate." IS NULL OR orders_log.modifiedDate = ".$modifiedDate.")
                     AND (".$modifiedBy." IS NULL OR orders_log.modifiedBy = ".$modifiedBy.")
                     AND (".$tableId." IS NULL OR orders.tableId = ".$tableId.")
-                    AND (".$archived." IS NULL OR orders.archived = ".$archived.")            
+                    AND (".$archived." IS NULL OR orders.archived = ".$archived.")      
+                ORDER BY orders_log.createdDate DESC
                 ";
         $query = $this->db->prepare($sql);
 
@@ -317,6 +318,132 @@ class Model
         $query->execute($parameters);
     }
 
+    public function confirmOrders($tableId, $orders, $maxId)
+    {
+        $maxId++;
+        $sql = "INSERT INTO orders (tableId, menuId, status, paid, cash, archived ) VALUES";
+        $sql2 = "INSERT INTO orders_log (action, orderId, tableId, menuId, status, paid, cash, archived, modifiedBy ) VALUES";
+        foreach($orders as $order){
+            $i=0;
+            for($i=0; $i<$order->quantity; $i++){ 
+                $menuId = $order->menuId;
+                $status = 'Pending'; 
+                $paid = 0; 
+                $cash = 0; 
+                $archived = 0;
+                $orderId = $maxId++;
+                $modifiedBy = $_SESSION["username"];
+
+                $sql = $sql."(".$tableId.",".$menuId.",'".$status."',".$paid.",".$cash.",".$archived."),";
+                $sql2 = $sql2."('added',".$orderId.",".$tableId.",".$menuId.",'".$status."',".$paid.",".$cash.",".$archived.",'".$modifiedBy."'),";
+            }
+        }
+        $sql = rtrim($sql, ",").";";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+
+        $sql2 = rtrim($sql2, ",").";";
+        $query = $this->db->prepare($sql2);
+        $query->execute();
+        
+        // useful for debugging: you can see the SQL behind above construction by using:
+        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+    }
+
+    public function saveComplete($orders)
+    {
+        $sql = "";
+        $sql2 = "INSERT INTO orders_log (action, orderId, tableId, menuId, status, paid, cash, archived, modifiedBy ) VALUES";
+    
+        foreach($orders as $order){
+            $menuId = $order->menuId;
+            $status = 'Completed'; 
+            $paid = 1; 
+            $cash = 1; 
+            $archived = 0;
+            $orderId = $order->id;
+            $orderLogId = $order->ordersLogId;
+            $modifiedBy = $_SESSION["username"];
+            $tableId = $order->tableId;
+
+            $sql = $sql."UPDATE orders SET paid=".$paid.",cash=".$cash.",status='Completed' WHERE id=".$orderId."; ";
+            $sql2 = $sql2."('updated',".$orderLogId.",".$tableId.",".$menuId.",'".$status."',".$paid.",".$cash.",".$archived.",'".$modifiedBy."'),";
+        }
+    
+        $query = $this->db->prepare($sql);
+        $query->execute();
+
+        $sql2 = rtrim($sql2, ",").";";
+        $query = $this->db->prepare($sql2);
+        $query->execute();
+        
+        //echo($sql);
+        //echo($sql2);
+        // useful for debugging: you can see the SQL behind above construction by using:
+        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+    }
+    
+    public function getOrdersToComplete($tableId)
+    {
+        if($tableId == '') { $tableId = 'NULL'; } else {$tableId = "'".$tableId."'";}
+        
+        $sql = "SELECT
+                    orders.id,
+                    customer_table.id as tableId,
+                    customer_table.name as tableName,
+                    menu.id as menuId,
+                    menu.menuName as menuName,
+                    menu.price as price,
+                    COUNT(orders.menuId) as quantity,
+                    menu.price * COUNT(orders.menuId) as priceTotal,
+                    orders_log.orderId as ordersLogId
+                FROM orders
+                INNER JOIN menu
+                ON menu.id = orders.menuId
+                INNER JOIN customer_table
+                ON customer_table.id = orders.tableId
+                INNER JOIN orders_log 
+                ON orders_log.orderId = orders.id
+                WHERE orders.tableId = ".$tableId."
+                GROUP BY orders.menuId
+                ";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+        
+        // fetchAll() is the PDO method that gets all result rows, here in object-style because we defined this in
+        // core/controller.php! If you prefer to get an associative array as the result, then do
+        // $query->fetchAll(PDO::FETCH_ASSOC); or change core/controller.php's PDO options to
+        // $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ...
+
+        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        return $query->fetchAll();
+    }
+
+    public function getOrdersForPayment($tableId)
+    {   
+        $sql = "SELECT
+                    orders.menuId as menuId,
+                    orders.id,
+                    orders.tableId as tableId,
+                    orders_log.orderId as ordersLogId
+                FROM orders
+                INNER JOIN orders_log 
+                ON orders_log.orderId = orders.id
+                AND orders.status = 'For Payment'
+                WHERE orders.tableId = ".$tableId."
+                ";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+        
+        // fetchAll() is the PDO method that gets all result rows, here in object-style because we defined this in
+        // core/controller.php! If you prefer to get an associative array as the result, then do
+        // $query->fetchAll(PDO::FETCH_ASSOC); or change core/controller.php's PDO options to
+        // $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ...
+
+        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        return $query->fetchAll();
+    }
+
     /**
      * Get simple "stats". This is just a simple demo to show
      * how to use more than one model in a controller (see application/controller/orders.php for more)
@@ -439,49 +566,19 @@ class Model
         return $query->fetchAll();
     }
 
-    public function getIngredientUpdate($order_id){
+    public function getMaxOrderId()
+    {
         $sql = "SELECT 
-                i.amount - m.amount AS newIngredientCount,
-                i.id AS ingredientId
-                FROM orders o
-                INNER JOIN menu_ingredient m on o.menuId = m.menuId
-                INNER JOIN ingredient i on m.ingredientId = i.id
-                WHERE o.id = ". $order_id;
+                    MAX(id) as maxId
+                FROM orders
+                ";
         $query = $this->db->prepare($sql);
         $query->execute();
 
-        return $query->fetchAll();
+        // fetchAll() is the PDO method that gets all result rows, here in object-style because we defined this in
+        // core/controller.php! If you prefer to get an associative array as the result, then do
+        // $query->fetchAll(PDO::FETCH_ASSOC); or change core/controller.php's PDO options to
+        // $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ...
+        return $query->fetch()->maxId;
     }
-
-    public function updateIngredientCount($ingredient_id, $new_amount){
-        
-        $sql = "UPDATE ingredient
-                SET amount = :new_amount
-                WHERE id = :ingredient_id";
-        
-        $query = $this->db->prepare($sql);
-        $parameters = array(
-            ':new_amount' => $new_amount, 
-            ':ingredient_id' => $ingredient_id
-            );
-
-        // useful for debugging: you can see the SQL behind above construction by using:
-        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
-
-        $query->execute($parameters);
-    }
-
-    public function updateIngredientsInventory($order_id){
-        $orderDetails = $this->getIngredientUpdate($order_id);
-
-        if(count($orderDetails) > 0){
-            if (isset($orderDetails[0]->ingredientId)){
-                $this->updateIngredientCount($orderDetails[0]->ingredientId,$orderDetails[0]->newIngredientCount);
-                return true;
-            }
-        }
-
-        return false;
-    }
-
 }

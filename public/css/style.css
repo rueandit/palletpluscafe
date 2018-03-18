@@ -591,7 +591,7 @@ th {
 
 td {
   padding: 4px;
-  font-size: 11px;
+  font-size: 12px;
 }
 tr:nth-child(even) {
     background-color: #dddddd;
@@ -632,9 +632,19 @@ img.menu-thumbnail {
 
 /* Customer Menu Styles*/
 
+.customer-index {
+  background-image: url(../img/bgg1.jpg);
+  width: 100%;
+  position: relative;
+  min-height: 100vh;
+  height: 100%;
+  margin-top: 40px;
+}
+
 .menu-list-header {
   display: flex;
   max-width: 960px;
+  padding: 16px;
   margin: 0 auto;
   align-items: center;
 }
@@ -656,19 +666,70 @@ img.menu-thumbnail {
   color: #C00000;
 }
 
-.menu-list-content {
-  max-width: 960px;
+.menu-filter {
   margin: 40px auto;
+  padding: 8px;
+  background:  #dddddd;
+  border-radius: 4px;
+  box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+}
+
+.menu-filter, .menu-list-content {
+  max-width: 960px;
+  margin: 0px auto;
+  padding: 16px;
+}
+.fullwidth{
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.filter-fields {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.filter-details{
+  display: flex;
+  align-items: center;
+}
+
+.input-label {
+  font-weight: bold;
+  margin-right: 8px;
+  width: 160px;
+}
+
+.input-list{
+  flex-grow: 1;
+  width: 100%;
+}
+
+.filter-input {
+  align-self: flex-end;
+}
+
+.menu-filter a{
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+}
+
+.menu-filter-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 24px
+}
+
+.filter-label{
+  font-size: 24px;
 }
 
 .menu-add-order{
-  width: 960px;
-  margin: 0 auto;
-}
-.add-orders {
-  padding: 8px 0;
-  background: #321305;
-  border: 1px solid #321305;
+  width: 100%;
   color: #ffffff;
   font-size: 16px;
   text-transform: uppercase;
@@ -676,9 +737,89 @@ img.menu-thumbnail {
   position: fixed;
   bottom: 0;
   z-index: 999;
-  width: 100%;
+}
+.cancel-confirm{
   max-width: 960px;
+  margin: 0 auto;
+}
 
+.add-orders, .cancel-orders {
+  padding: 8px 0;
+  border: 1px solid #321305;
+  width: 100%;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+.cancel-orders{
+  background: #321305;
+  border: 1px solid #321305;
+}
+
+.add-orders{
+  background: #6d3720;
+  border: 1px solid #6d3720;
+}
+
+.add-orders:hover, .cancel-orders:hover{
+  background: #000000;
+  border: 1px solid #000000;
+}
+
+.complete-orders{
+  background: #321305;
+  border: 1px solid #321305;
+  padding: 8px 0;
+  border: 1px solid #321305;
+  width: 100%;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+.filter-buttons{
+  padding: 0 15px;
+}
+
+.btn-best{
+  background: #fcc7c7;
+  color: #C00000;
+  border: 1px solid #C00000;
+  padding: 4px;
+}
+
+.btn-best:hover{
+  background: #C00000;
+  color: #ffffff;
+  border: 1px solid #C00000;
+}
+
+.btn-low{
+  background: #fff1bf;
+  color: #f9c302;
+  border: 1px solid #f9c302;
+  padding: 4px;
+}
+
+.btn-low:hover{
+  background: #f9c302;
+  border: 1px solid #f9c302;
+  color: #ffffff;
+}
+
+.btn-high{
+  background: #bfdaff;
+  color: #0261dd;
+  border: 1px solid #0261dd;
+  padding: 4px;
+}
+
+.btn-high:hover{
+  background: #0261dd;
+  color: #ffffff;
+  border: 1px solid #0261dd;
+}
+
+.no-padding{
+  padding: 0px;
 }
 
 .menu-tile {
@@ -724,6 +865,14 @@ img.menu-thumbnail {
   font-size: 12px;
   text-align: justify;
   font-style: italic;
+  overflow: hidden;
+  position: relative;
+  line-height: 1.2em;
+  max-height: 3.6em; 
+  text-align: justify; 
+  margin-right: 4px;
+  padding-right: 4px;
+  text-overflow: ellipsis;
 }
 
 .menu-description, .menu-price, .menu-allergen{
@@ -758,6 +907,7 @@ img.menu-thumbnail {
 
 .counter {
   flex-grow: 1;
+  min-width: 50px;
 }
 
 .counter input {

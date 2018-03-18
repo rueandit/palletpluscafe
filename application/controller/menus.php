@@ -69,6 +69,72 @@ class Menus extends Controller
         require APP . 'view/_templates/footer.php';
     }
 
+    public function customerIndex()
+    {
+        Helper::authenticate();
+        Helper::authorize("menus/customerIndex");
+
+        $rating = "";
+        $categoryId = "";
+        $orderBy = "";
+        $currentSelection = [];
+        $_SESSION["tableId"] = "";
+        $_SESSION["orders"] = "";
+        $_SESSION["tableDescription"] = "";
+    
+        $tables = $this->model->getAllTables();
+
+        if (isset($_POST["orders"]) || isset($_POST["go_back"])){
+            $_SESSION["orders"] = $_POST["orders"];
+            $_SESSION["tableId"] = $_POST["tableId"];
+
+            if (isset($_POST["go_back"])){
+                $_SESSION["tableDescription"] = $_POST["tableDescription"];
+            }
+        }
+
+        if (isset($_SESSION["orders"])){
+            $currentSelection = json_decode($_SESSION["orders"]);
+        }
+
+        if (isset($_POST["submit_search_category"])) {
+            $categoryId = $_POST["category"];
+            $_SESSION["tableId"] = $_POST["tableId"];
+        }
+
+        if (isset($_POST["submit_search_best"])) {
+            $rating = "Best Seller";
+            $categoryId = $_POST["category"];
+        }
+
+        if (isset($_POST["submit_search_low"])) {
+            $orderBy = "ASC";
+            $categoryId = $_POST["category"];
+        }
+
+        if (isset($_POST["submit_search_high"])) {
+            $orderBy = "DESC";
+            $categoryId = $_POST["category"];
+        }
+
+        // do getFilteredMenus() in model/model.php
+        $menus = $this->model->getCustomerMenus(
+            $rating,
+            $categoryId,
+            $orderBy
+        );
+
+        // getting all menus and amount of menus
+        $categories = $this->model->getAllCategories();
+
+       // load views. within the views we can echo out $menus and $amount_of_menus easily
+        require APP . 'view/_templates/header.php';
+        require APP . 'view/_templates/navigation.php';
+        require APP . 'view/_templates/sidebar.php';
+        require APP . 'view/menus/customerIndex.php';
+        require APP . 'view/_templates/footer.php';
+    }
+
     /**
      * ACTION: addMenu
      * This method handles what happens when you move to http://palletpluscafe/menus/addmenu

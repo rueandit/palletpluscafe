@@ -63,6 +63,7 @@
         <!-- main content output -->
     
         <div class="list-content" id="orders">
+        <form action="<?php echo URL; ?>orders/ordersToComplete" method="POST">
         <table>
             <thead>
             <tr>
@@ -76,15 +77,18 @@
             <tbody>
             <?php foreach ($orders as $order) { ?>
                 <tr>
-                    <td><?php if (isset($order->tableName)) echo htmlspecialchars($order->tableName, ENT_QUOTES, 'UTF-8'); ?></td>
+                    <td>
+                        <input type="hidden" id="tableId" name="tableId" value='<?php if (isset($order->tableId)) echo htmlspecialchars($order->tableId, ENT_QUOTES, 'UTF-8'); ?>' />
+                        <?php if (isset($order->tableName)) echo htmlspecialchars($order->tableName, ENT_QUOTES, 'UTF-8'); ?>
+                    </td>
                     <td ><?php if (isset($order->menuName)) echo htmlspecialchars($order->menuName, ENT_QUOTES, 'UTF-8'); ?></td>
                     <td class="td-small"><?php if (isset($order->status)) echo htmlspecialchars($order->status, ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td class="td-small"><?php if (isset($order->createdDate)) echo htmlspecialchars($order->createdDate, ENT_QUOTES, 'UTF-8'); ?></td>
+                    <td class="td-medium"><?php if (isset($order->createdDate)) echo htmlspecialchars($order->createdDate, ENT_QUOTES, 'UTF-8'); ?></td>
                     <td class="col-lg-2">
                         <?php
                           ///TO DO: hook up with the POS
                           if($order->status == OrderStatus::forPayment){
-                            echo '<button class="btn-success btn-block btn-order-action" data-action="'. OrderStatus::complete .'"  data-id="'. $order->id .'"><i class="fa fa-check"></i> Complete</button>';
+                            echo '<button class="btn-success btn-block" type="submit"  name="submit_orders_to_complete"><i class="fa fa-check"></i> Complete</button>';
                           }
                         ?>
                     </td>
@@ -92,5 +96,6 @@
             <?php } ?>
             </tbody>
         </table>
+        </form>
     </div>
 </div>

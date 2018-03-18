@@ -4,7 +4,7 @@
 
     <!-- define the project's URL (to make AJAX calls possible, even when using this in sub-folders etc) -->
     <script>
-        var url = "<?php echo URL . '\\'; ?>";
+        var url = "<?php echo URL; ?>";
     </script>
 
     <!-- our JavaScript -->
@@ -62,7 +62,13 @@
 
         var navbar =  $("#navbar")[0];
         var sticky = navbar.offsetTop;
-        var orders = {};
+
+        var currentOrders = $('input[type=hidden]#orders').val();
+        if( currentOrders !== "" && typeof currentOrders !== 'undefined'){
+            var orders = JSON.parse(currentOrders);
+        }else {
+            var orders = [];
+        }
 
         function myFunction() {
         if (window.pageYOffset >= sticky) {
@@ -103,32 +109,64 @@
             sf.style.display = "none";
         });  
 
-        $('button.increase').click(function(){
+        $('button.increase').click(function(e){
+        e.preventDefault();
         var menuId = (this.id).split("-")[1];
-        var counter = parseInt(document.getElementById("counter-" + menuId).value);
-        counter++;
+        var menuName = document.getElementById("menu-name-" + menuId).value;
+        var price = parseInt(document.getElementById("menu-price-" + menuId).value);
+        var quantity = parseInt(document.getElementById("counter-" + menuId).value);
+        quantity++;
         
-        orders[menuId] = counter;
-        $('input[type=text]#counter-' + menuId).val(counter);
-        alert(JSON.stringify(orders));
+        if (quantity > 1){
+            var itemIndex = orders.findIndex(obj => obj.menuId == menuId);
+            orders[itemIndex].quantity = quantity;
+            orders[itemIndex].priceTotal = price * quantity; 
+        }else{
+            var item = {};
+            item['menuId'] = menuId;
+            item['menuName'] = menuName;
+            item['price'] = price;
+            item['quantity'] = quantity;
+            item['priceTotal'] = price * quantity;
+            orders.push(item);
+        }     
+
+        $('input[type=text]#counter-' + menuId).val(quantity);
+        $('input[type=hidden]#orders').val(JSON.stringify(orders));
+        $('input[type=hidden]#ordersAdd').val(JSON.stringify(orders));
+        console.log(JSON.stringify(orders));
         });
         
-        $('button.decrease').click(function(){
+        $('button.decrease').click(function(e){
+        e.preventDefault();
         var menuId = (this.id).split("-")[1];
-        var counter = parseInt(document.getElementById("counter-" + menuId).value);
-        if (counter > 0) {
-            counter--;
-            if(counter == 0){
-                delete orders[menuId];
+        var menuName = document.getElementById("menu-name-" + menuId).value;
+        var price = parseInt(document.getElementById("menu-price-" + menuId).value);
+        var quantity = parseInt(document.getElementById("counter-" + menuId).value);
+
+        if (quantity > 0) {
+            quantity--;
+            var itemIndex = orders.findIndex(obj => obj.menuId == menuId);
+
+            if(quantity == 0){
+                delete orders[itemIndex];
+                orders = orders.filter(function(e){return e});
             }else{
-                orders[menuId] = counter;
+                orders[itemIndex].quantity = quantity;
+                orders[itemIndex].priceTotal = price * quantity;
             }
+            $('input[type=text]#counter-' + menuId).val(quantity);
         }
         
-        $('input[type=text]#counter-' + menuId).val(counter);
-            alert(JSON.stringify(orders));
+        $('input[type=hidden]#orders').val(JSON.stringify(orders));
+        $('input[type=hidden]#ordersAdd').val(JSON.stringify(orders));
+        console.log(JSON.stringify(orders));
         });
 
+        $("#tableId").change(function(){
+            $('input[type=hidden]#ordersTableId').val($('#tableId').val());
+            $('input[type=hidden]#ordersTableDescription').val($('#tableId').find('option:selected').text());
+        });
         ///TO DO: refactor scripts to be modular
         //orders screen
         function notifyPendingOrders(){

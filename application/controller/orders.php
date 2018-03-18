@@ -231,6 +231,90 @@ class Orders extends Controller
         header('location: ' . URL . 'orders/index');
     }
 
+    public function placeOrder()
+    {
+        Helper::authenticate();
+        Helper::authorize("orders/placeOrder");
+
+        // if we have POST data to calculate all orders entry
+        if (isset($_POST["submit_place_order"])) {
+            $_SESSION["ordersAdd"] = $_POST["ordersAdd"];
+            $temp = $_POST["ordersAdd"];
+            $tableId = $_POST["ordersTableId"];
+            $tableDescription = $_POST["ordersTableDescription"];
+            $orders = json_decode($_POST["ordersAdd"]);
+        }
+
+        require APP . 'view/_templates/header.php';
+        require APP . 'view/_templates/navigation.php';
+        require APP . 'view/_templates/sidebar.php';
+        require APP . 'view/orders/placeOrder.php';
+        require APP . 'view/_templates/footer.php';
+    }
+
+    public function confirmOrders()
+    {
+        Helper::authenticate();
+        Helper::authorize("orders/confirmOrders");
+
+        // if we have POST data to create a new order entry
+        if (isset($_POST["submit_confirm_orders"])) {
+            // do updateOrder() from model/model.php
+            $orders = json_decode($_POST['confirmOrders']);
+            $maxId = $this->model->getMaxOrderId();
+            $this->model->confirmOrders(
+                $_POST['confirmTableId'],
+                $orders,
+                $maxId
+            );
+        }
+
+        // where to go after order has been added
+       header('location: ' . URL . 'orders/index');
+    }
+
+    public function ordersToComplete()
+    {
+        Helper::authenticate();
+        Helper::authorize("orders/ordersToComplete");
+
+        // if we have POST data to create a new order entry
+        if (isset($_POST["submit_orders_to_complete"])) {
+            // do updateOrder() from model/model.php
+            $orders = $this->model->getOrdersToComplete(
+                $_POST['tableId']
+            );
+            $tableId = $_POST['tableId'];
+        }
+   
+        require APP . 'view/_templates/header.php';
+        require APP . 'view/_templates/navigation.php';
+        require APP . 'view/_templates/sidebar.php';
+        require APP . 'view/orders/ordersToComplete.php';
+        require APP . 'view/_templates/footer.php';
+   
+    }
+
+    public function saveComplete()
+    {
+        Helper::authenticate();
+        Helper::authorize("orders/saveComplete");
+        
+        // if we have POST data to create a new order entry
+        if (isset($_POST["submit_save_complete"])) {
+            // do updateOrder() from model/model.php
+            $ordersForPayment = $this->model->getOrdersForPayment(
+                $_POST['tableId']
+            );
+            $this->model->saveComplete(
+                $ordersForPayment
+            );
+        }
+   
+        // where to go after order has been added
+        header('location: ' . URL . 'orders/index');   
+    }
+
     /**
      * AJAX-ACTION: ajaxGetStats
      * TODO documentation

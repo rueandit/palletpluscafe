@@ -113,6 +113,51 @@ class Model
     }
 
     /**
+     * Get all menus from database based on filters
+     */
+    public function getCustomerMenus($rating, $categoryId, $orderBy)
+    {
+        if($rating == '') { $rating = 'NULL'; } else { $rating = "'".$rating."'"; }
+        if($categoryId == '') { $categoryId = 'NULL'; } else { $categoryId = "'".$categoryId."'"; }
+        if($orderBy == '') { $orderBy = 'ASC'; }
+
+        $sql = "SELECT 
+                menu.id,
+                menuName,
+                menuDescription,
+                menuStatus,
+                price,
+                rating,
+                CASE WHEN menu.archived = 0 THEN 'False' ELSE 'True' END AS archived,
+                menu_category.description as category,
+                subCategory,
+                menu_allergen.description as allergen
+                FROM menu
+                INNER JOIN menu_category
+                ON menu_category.id = menu.categoryId
+                INNER JOIN menu_allergen
+                ON menu_allergen.id = menu.allergenId
+                WHERE (".$rating." IS NULL OR rating = ".$rating.")
+                    AND (".$categoryId." IS NULL OR categoryId = ".$categoryId.")
+                    AND (menu.archived != 1)
+                ORDER BY menu.price ".$orderBy." 
+                ";
+                
+        $query = $this->db->prepare($sql);
+
+        $query->execute();
+        
+        // fetchAll() is the PDO method that gets all result rows, here in object-style because we defined this in
+        // core/controller.php! If you prefer to get an associative array as the result, then do
+        // $query->fetchAll(PDO::FETCH_ASSOC); or change core/controller.php's PDO options to
+        // $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ...
+
+        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        //echo ($sql);
+
+        return $query->fetchAll();
+    }
+    /**
      * Add a menu to database
      * TODO put this explanation into readme and remove it from here
      * Please note that it's not necessary to "clean" our input in any way. With PDO all input is escaped properly
@@ -342,6 +387,26 @@ class Model
         $query->execute();
 
         // fetch() is the PDO method that get exactly one result
+        return $query->fetchAll();
+    }
+
+    public function getAllTables()
+    {
+        $sql = "SELECT 
+                id,
+                name,
+                description,
+                CASE WHEN archived = 0 THEN 'False' ELSE 'True' END AS archived
+                FROM customer_table
+                ";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+
+        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        // fetchAll() is the PDO method that gets all result rows, here in object-style because we defined this in
+        // core/controller.php! If you prefer to get an associative array as the result, then do
+        // $query->fetchAll(PDO::FETCH_ASSOC); or change core/controller.php's PDO options to
+        // $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ...
         return $query->fetchAll();
     }
 }
