@@ -458,7 +458,7 @@ class Model
     
     public function getNewPendingOrders()
     {
-        $sql = "SELECT COUNT(id) AS orders_count FROM orders WHERE status=" . "'". OrderStatus::pending ."'";
+        $sql = "SELECT COUNT(id) AS orders_count FROM orders WHERE LCASE(status)=" . "LCASE('". OrderStatus::pending ."')";
         $query = $this->db->prepare($sql);
         $query->execute();
 
@@ -469,7 +469,7 @@ class Model
 
     public function getNewReadyOrders()
     {
-        $sql = "SELECT COUNT(id) AS orders_count FROM orders WHERE status=" . "'". OrderStatus::forServing ."'";
+        $sql = "SELECT COUNT(id) AS orders_count FROM orders WHERE LCASE(status)=" . "LCASE('". OrderStatus::forServing ."')";
         $query = $this->db->prepare($sql);
         $query->execute();
 
@@ -480,7 +480,7 @@ class Model
 
     public function getNewPaymentOrders()
     {
-        $sql = "SELECT COUNT(id) AS orders_count FROM orders WHERE status=" . "'". OrderStatus::forPayment ."'";
+        $sql = "SELECT COUNT(id) AS orders_count FROM orders WHERE LCASE(status)=" . "LCASE('". OrderStatus::forPayment ."')";
         $query = $this->db->prepare($sql);
         $query->execute();
 
