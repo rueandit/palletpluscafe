@@ -117,6 +117,10 @@ class Helper
                 case "tables/editTable" :
                 case "tables/updateTable" :
                 case "menuIngredients/index" :
+                    if ($type == UserType::kitchen){
+                        $isAuthorized = true;
+                    }
+                    break;
                 case "menuIngredients/addMenuIngredient" :
                 case "menuIngredients/submitMenuIngredient" :
                 case "menuIngredients/deleteMenuIngredient" :
@@ -136,11 +140,15 @@ class Helper
                         $isAuthorized = false;
                     }
                     break;
-                case "myOrders/index":
                 case "orders/customerindex":
                 case "orders/placeOrder":
                 case "orders/confirmOrders":
                 case "orders/ordersToComplete":
+                case "reports/inventoryReport":
+                case "reports/dailySalesReport":
+                case "reports/weeklySalesReport":
+                case "reports/monthlySalesReport":
+                case "reports/yearlySalesReport":
             }
         }
 
@@ -187,8 +195,12 @@ class Helper
                     <a href="'. URL . 'ingredients"><i class="fas fa-shopping-bag display-icon"></i> Ingredients</a>
                     <a href="'. URL . 'allergens"><i class="fas fa-syringe display-icon"></i> Allergens</a>
                     <a href="'. URL . 'categories"><i class="fas fa-tags display-icon"></i> Categories</a>
-                    <a href="'. URL . 'menuIngredient"><i class="fas fa-shopping-bag display-icon"></i> Menu Ingredients</a>
-                    <a href="'. URL . 'reports"><i class="fas fa-chart-bar display-icon"></i> Reports</a>';
+                    <a href="'. URL . 'menuIngredients"><i class="fas fa-shopping-bag display-icon"></i> Menu Ingredients</a>
+                    <a href="'. URL . 'reports/inventoryReport"><i class="fas fa-chart-bar display-icon"></i> Inventory Report</a>
+                    <a href="'. URL . 'reports/dailySalesReport"><i class="fas fa-chart-bar display-icon"></i> Daily Sales Report</a>
+                    <a href="'. URL . 'reports/weeklySalesReport"><i class="fas fa-chart-bar display-icon"></i> Weekly Sales Report</a>
+                    <a href="'. URL . 'reports/monthlySalesReport"><i class="fas fa-chart-bar display-icon"></i> Monthly Sales Report</a>
+                    <a href="'. URL . 'reports/yearlySalesReport"><i class="fas fa-chart-bar display-icon"></i> Annual Sales Report</a>';
                     break;
                 case UserType::admin:
                     echo '<a href="'. URL . 'menus"><i class="fas fa-utensils display-icon"></i> Menu</a>
@@ -197,8 +209,12 @@ class Helper
                     <a href="'. URL . 'ingredients"><i class="fas fa-shopping-bag display-icon"></i> Ingredients</a>
                     <a href="'. URL . 'allergens"><i class="fas fa-syringe display-icon"></i> Allergens</a>
                     <a href="'. URL . 'categories"><i class="fas fa-tags display-icon"></i> Categories</a>
-                    <a href="'. URL . 'menuIngredient"><i class="fas fa-shopping-bag display-icon"></i> Menu Ingredients</a>
-                    <a href="'. URL . 'reports"><i class="fas fa-chart-bar display-icon"></i> Reports</a>';
+                    <a href="'. URL . 'menuIngredients"><i class="fas fa-shopping-bag display-icon"></i> Menu Ingredients</a>
+                    <a href="'. URL . 'reports/inventoryReport"><i class="fas fa-chart-bar display-icon"></i> Inventory Report</a>
+                    <a href="'. URL . 'reports/dailySalesReport"><i class="fas fa-chart-bar display-icon"></i> Daily Sales Report</a>
+                    <a href="'. URL . 'reports/weeklySalesReport"><i class="fas fa-chart-bar display-icon"></i> Weekly Sales Report</a>
+                    <a href="'. URL . 'reports/monthlySalesReport"><i class="fas fa-chart-bar display-icon"></i> Monthly Sales Report</a>
+                    <a href="'. URL . 'reports/yearlySalesReport"><i class="fas fa-chart-bar display-icon"></i> Annual Sales Report</a>';
                     break;
                 case UserType::waiter:
                     echo '<a href="'. URL . 'menus"><i class="fas fa-utensils display-icon"></i> Menu</a>
@@ -212,7 +228,7 @@ class Helper
                 case UserType::kitchen:
                     echo '<a href="'. URL . 'orders"><i class="fas fa-clipboard-list display-icon"></i> Orders</a>
                     <a href="'. URL . 'ingredients"><i class="fas fa-shopping-bag display-icon"></i> Ingredients</a>
-                    <a href="'. URL . 'menuIngredient"><i class="fas fa-shopping-bag display-icon"></i> Menu Ingredients</a>';
+                    <a href="'. URL . 'menuIngredients"><i class="fas fa-shopping-bag display-icon"></i> Menu Ingredients</a>';
                     break;
                 default:
                     echo 'No Access';

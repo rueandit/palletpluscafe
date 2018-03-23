@@ -9,7 +9,7 @@
  * This is really weird behaviour, but documented here: http://php.net/manual/en/language.oop5.decon.php
  *
  */
-class MenuIngredient extends Controller
+class MenuIngredients extends Controller
 {
     /**
      * PAGE: index
@@ -19,6 +19,7 @@ class MenuIngredient extends Controller
     {
         Helper::authenticate();
         Helper::authorize("menuIngredients/index");
+        
         if (isset($_POST["submit_search_menuIngredient"])) {
             $menuName = $_POST["menuName"];
             $ingredient = $_POST["ingredient"];
@@ -48,7 +49,7 @@ class MenuIngredient extends Controller
         require APP . 'view/_templates/header.php';
         require APP . 'view/_templates/navigation.php';
         require APP . 'view/_templates/sidebar.php';
-        require APP . 'view/menuIngredient/index.php';
+        require APP . 'view/menuIngredients/index.php';
         require APP . 'view/_templates/footer.php';
     }
 
@@ -70,7 +71,7 @@ class MenuIngredient extends Controller
         require APP . 'view/_templates/header.php';
         require APP . 'view/_templates/navigation.php';
         require APP . 'view/_templates/sidebar.php';
-        require APP . 'view/menuIngredient/add.php';
+        require APP . 'view/menuIngredients/add.php';
         require APP . 'view/_templates/footer.php';
     }
 
@@ -98,7 +99,7 @@ class MenuIngredient extends Controller
         }
 
         // where to go after ingredient has been added
-        header('location: ' . URL . 'menuIngredient/index');
+        header('location: ' . URL . 'menuIngredients/index');
     }
 
     /**
@@ -121,7 +122,7 @@ class MenuIngredient extends Controller
         }
 
         // where to go after ingredient has been deleted
-        header('location: ' . URL . 'menuIngredient/index');
+        header('location: ' . URL . 'menuIngredients/index');
     }
 
      /**
@@ -147,11 +148,11 @@ class MenuIngredient extends Controller
             require APP . 'view/_templates/header.php';
             require APP . 'view/_templates/navigation.php';
             require APP . 'view/_templates/sidebar.php';
-            require APP . 'view/menuIngredient/edit.php';
+            require APP . 'view/menuIngredients/edit.php';
             require APP . 'view/_templates/footer.php';
         } else {
             // redirect user to ingredients index page (as we don't have a ingredient_id)
-            header('location: ' . URL . 'menuIngredient/index');
+            header('location: ' . URL . 'menuIngredients/index');
         }
     }
     
@@ -180,7 +181,7 @@ class MenuIngredient extends Controller
         }
 
         // where to go after ingredient has been added
-        header('location: ' . URL . 'menuIngredient/index');
+        header('location: ' . URL . 'menuIngredients/index');
     }
 
     /**

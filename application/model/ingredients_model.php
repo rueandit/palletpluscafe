@@ -26,11 +26,11 @@ class Model
                 ingredient.amount,
                 ingredient.unit,
                 ingredient.amount,
-                images.imageFile,
+                images.name as imageFileName,
                 CASE WHEN archived = 0 THEN 'False' ELSE 'True' END AS archived
                 FROM ingredient
                 LEFT JOIN images
-                ON images.id = ingredient.imageId
+                ON ingredient.imageId = images.id
                 ";
         $query = $this->db->prepare($sql);
         $query->execute();
@@ -135,6 +135,32 @@ class Model
         $query->execute($parameters);
     }
 
+    
+    /// TO DO: Error message on upload
+    public function uploadFile($imgData,$imageProperties,$fileName){
+
+        $sql = "INSERT INTO images (
+                            name, 
+                            description, 
+                            imageFile
+                            ) 
+                            VALUES (
+                            :fileName, 
+                            :imageProperties, 
+                            :imgData)";
+                    $query = $this->db->prepare($sql);
+
+                    $query->bindParam(':fileName',$fileName);
+                    $query->bindParam(':imageProperties',$fileName);
+                    $query->bindParam(':imgData',$imgData, PDO::PARAM_LOB);
+
+                    $query->execute();
+
+        // fetch() is the PDO method that get exactly one result
+        return $this->db->lastInsertId();
+    }
+
+
     /**
      * Delete a ingredient in the database
      * Please note: this is just an example! In a real application you would not simply let everybody
@@ -164,8 +190,8 @@ class Model
                 ingredient.description,
                 ingredient.amount,
                 ingredient.unit,
-                images.imageFile,
-                ingredient.imageId,
+                images.name AS imageFileName,
+                ingredient.imageId as imageFileId,
                 CASE WHEN ingredient.archived = 0 THEN 'False' ELSE 'True' END AS archived
                 FROM ingredient
                 LEFT JOIN images

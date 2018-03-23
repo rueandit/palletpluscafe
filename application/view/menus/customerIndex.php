@@ -84,6 +84,7 @@
                         <div class="menu-details">
                             <div class="menu-photo"><img src="<?php if($menu->imageFileName == "") {$filename = "no-image.png";} else {$filename = $menu->imageFileName;} echo URL . "img/" . $filename; ?>" class="menu-photo"/></div>
                             <div class="menu-text">
+                                <input type="hidden" id="<?php echo 'menu-photo-'.$menu->id?>" class="menuPhoto" value="<?php echo htmlspecialchars($filename, ENT_QUOTES, 'UTF-8'); ?>" />
                                 <input type="hidden" id="<?php echo 'menu-name-'.$menu->id?>" class="menuName" value="<?php echo htmlspecialchars($menu->menuName, ENT_QUOTES, 'UTF-8'); ?>" />
                                 <input type="hidden"  id="<?php echo 'menu-price-'.$menu->id?>" class="menuPrice" value="<?php echo htmlspecialchars($menu->price, ENT_QUOTES, 'UTF-8'); ?>" />
                                 <div class="menu-name"><?php if (isset($menu->menuName)) echo htmlspecialchars($menu->menuName, ENT_QUOTES, 'UTF-8'); ?></div>

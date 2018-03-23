@@ -22,28 +22,31 @@ class Orders extends Controller
 
         $tables = $this->model->getAllTables();
         $menus = $this->model->getAllMenus();
-
+        $_SESSION['createdDate'] = date("Y-m-d");
+        
         if (isset($_POST["submit_search_order"])) {
                 $tableId = $_POST["tableId"];
                 $menuName = $_POST["menuName"];  
                 $status = $_POST["status"];
                 $paid = $_POST["paid"];
                 $cash = $_POST["cash"];
-                $createdDate = $_POST["createdDate"];
+                $createdDate = '"'.$_POST["createdDate"].'"';
                 $modifiedDate = $_POST["modifiedDate"];
                 $modifiedBy = $_POST["modifiedBy"];
                 $archived = $_POST["archived"];
 
+                $_SESSION['createdDate'] = date("Y-m-d");
+
             $orders = $this->model->getFilteredOrders(
-                $_POST["tableId"],
-                $_POST["menuName"],
-                $_POST["status"],
-                $_POST["paid"],
-                $_POST["cash"],
-                $_POST["createdDate"],
-                $_POST["modifiedDate"],
-                $_POST["modifiedBy"],
-                $_POST["archived"]
+                $tableId,
+                $menuName,
+                $status,
+                $paid,
+                $cash,
+                $createdDate,
+                $modifiedDate,
+                $modifiedBy,
+                $archived
             );
         }
         else if (isset($_POST["submit_limited_search_order"])) {
@@ -53,10 +56,23 @@ class Orders extends Controller
                 $createdDate = $_POST["createdDate"];
                 
             $orders = $this->model->getViewFilteredOrders(
-                $_POST["tableId"],
-                $_POST["menuName"],
-                $_POST["status"],
-                $_POST["createdDate"]
+                $tableId,
+                $menuName,
+                $status,
+                $createdDate
+            );
+        }
+        else if ($_SESSION['user_type'] != 'admin' || $_SESSION['user_type'] != 'superadmin'){
+            $tableId = '';
+            $menuName = '';  
+            $status = '';
+            $createdDate = date("Y-m-d");
+
+            $orders = $this->model->getViewFilteredOrders(
+                $tableId,
+                $menuName,
+                $status,
+                $createdDate
             );
         }
         else{

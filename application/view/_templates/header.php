@@ -19,5 +19,6 @@
 
     <link href="<?php echo URL; ?>/css/toastr.css" rel="stylesheet"/>
     <script src="<?php echo URL; ?>/js/toastr.js"></script>
+    <script src="<?php echo URL; ?>/js/canvasjs.min.js"></script>
 </head>
 <body>

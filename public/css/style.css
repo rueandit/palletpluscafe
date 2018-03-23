@@ -1027,3 +1027,59 @@ td.total {
 .no-display{
   display: none;
 }
+
+.filter-row{
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+label.report-filter{
+  min-width: 80px !important;
+}
+
+input.report-filter{
+  min-width: 200px !important;
+  height: 26px;
+}
+
+table.reports{
+  border: none;
+}
+
+table.reports thead{
+  background: none;
+}
+
+table.reports thead td{
+  color: #000000;
+  font-size: 16px;
+}
+
+table.reports tr:nth-child(even) {
+  background: none;
+  
+}
+
+table.reports td{
+  border: none;
+}
+
+tr.heading td{
+  font-size: 16px;
+  padding: 8px 0;
+  font-weight: bold;
+}
+
+td.strings{
+  text-align: left;
+}
+
+.chart-container{
+  padding: 24px;
+  background: #ffffff;
+}
+
+.charts{
+  height: 370px;
+  width: 100%;
+}

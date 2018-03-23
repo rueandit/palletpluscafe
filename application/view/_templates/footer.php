@@ -112,6 +112,7 @@
         $('button.increase').click(function(e){
         e.preventDefault();
         var menuId = (this.id).split("-")[1];
+        var menuPhoto = document.getElementById("menu-photo-" + menuId).value;
         var menuName = document.getElementById("menu-name-" + menuId).value;
         var price = parseInt(document.getElementById("menu-price-" + menuId).value);
         var quantity = parseInt(document.getElementById("counter-" + menuId).value);
@@ -128,6 +129,7 @@
             item['price'] = price;
             item['quantity'] = quantity;
             item['priceTotal'] = price * quantity;
+            item['menuPhoto'] = menuPhoto;
             orders.push(item);
         }     
 
@@ -247,7 +249,6 @@
                 }
             });
         });
-
         <?php Helper::enableNotification() ?>
     });
 </script>

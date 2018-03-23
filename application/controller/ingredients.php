@@ -19,6 +19,7 @@ class Ingredients extends Controller
     {
         Helper::authenticate();
         Helper::authorize("ingredients/index");
+
         if (isset($_POST["submit_search_ingredient"])) {
             $name = $_POST["name"];
             $description = $_POST["description"];
@@ -76,6 +77,61 @@ class Ingredients extends Controller
         require APP . 'view/_templates/footer.php';
     }
 
+    public function uploadRoutine(){
+        $target_dir = __DIR__ . "/../../public/img/";
+        $file = $_FILES["fileToUpload"]["name"];
+        $fileName = date("Y-m-d") . "-" .basename($file);
+        $target_file = $target_dir . $fileName;
+        $uploadOk = true;
+        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+        
+        // Check if image file is a actual image or fake image
+        $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+        if($check !== false) {
+            $error = "File is an image - " . $check["mime"] . ".";
+            $uploadOk = true;
+        } else {
+            $error = "File is not an image.";
+            $uploadOk = false;
+        }
+
+        // Check if file already exists
+        if (file_exists($target_file)) {
+            $error = "Sorry, file already exists.";
+            $uploadOk = false;
+        }
+        // Check file size
+        if ($_FILES["fileToUpload"]["size"] > 500000) {
+            $error = "Sorry, your file is too large.";
+            $uploadOk = false;
+        }
+        // Check file formats
+        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+        && $imageFileType != "gif" ) {
+            $error = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+            $uploadOk = false;
+        }
+        // Check if $uploadOk is set to 0 by an error
+        if ($uploadOk) {
+            try{
+                if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                    $imgData = addslashes(file_get_contents($target_file));
+                    $imageProperties = getimageSize($target_file);
+                    return $this->model->uploadFile($imgData,$imageProperties,$fileName);
+                } else {
+                    return 0;
+                }
+            }catch(Exception $e){
+                $_SESSION['uploadError'] = $e;
+                return 0;
+            }
+            
+        }
+        else{
+            $_SESSION['uploadError'] = $error;
+            return 0;
+        }
+    }
         /**
      * ACTION: addIngredient
      * This method handles what happens when you move to http://palletpluscafe/ingredients/addingredient
@@ -91,13 +147,14 @@ class Ingredients extends Controller
         // if we have POST data to create a new ingredient entry
         if (isset($_POST["submit_add_ingredient"])) {
             // do addIngredient() in model/model.php
+            $uploadFileId = $this->uploadRoutine();
             $this->model->addIngredient(
                 $_POST["name"],
                 $_POST["description"],
                 $_POST["amount"],
                 $_POST["unit"],  
                 $_POST["archived"],
-                $_POST["imageId"]
+                $uploadFileId
             );
         }
 
@@ -172,7 +229,12 @@ class Ingredients extends Controller
         Helper::authorize("ingredients/updateIngredient");
         // if we have POST data to create a new ingredient entry
         if (isset($_POST["submit_update_ingredient"])) {
-            // do updateIngredient() from model/model.php
+            if(!isset($_FILES['fileToUpload']) || $_FILES['fileToUpload']['error'] == UPLOAD_ERR_NO_FILE){
+                $uploadFileId = $_POST["imageFileId"];
+            }
+            else{
+                $uploadFileId = $this->uploadRoutine();
+            }
             $this->model->updateIngredient(
                 $_POST["ingredient_id"],
                 $_POST["name"],
@@ -180,7 +242,7 @@ class Ingredients extends Controller
                 $_POST["amount"],
                 $_POST["unit"],  
                 $_POST["archived"],
-                $_POST["imageId"]
+                $uploadFileId
             );
         }
 

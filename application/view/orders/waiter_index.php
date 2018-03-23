@@ -41,15 +41,15 @@
                           <div>
                               <select id="status" name="status" value="">
                               <option value=""></option>
-                              <?php foreach (OrderStatus::getList() as $status) { ?>
-                                  <option value="<?php echo $status ?>">
-                                  <?php echo $status; }?></option>
+                              <?php foreach (OrderStatus::getList() as $statusItem) { ?>
+                                  <option value="<?php echo $statusItem ?>" <?php if ($statusItem == $status) echo 'selected';?>>
+                                  <?php echo $statusItem; }?></option>
                               </select>
                           </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 input-item">
                             <div><label >Received Date</label></div>
-                            <div><input type="text" name="createdDate" value="<?php echo $createdDate;?>" /></div>
+                            <div><input  class="report-filter" type="date" name="createdDate" value="<?php echo $createdDate; ?>"</div>
                         </div>
                     </div>
                     <div class="row">
@@ -59,6 +59,7 @@
                     </div>
                 </div> 
             </form>
+            </div>
         </div>
         <!-- main content output -->
     

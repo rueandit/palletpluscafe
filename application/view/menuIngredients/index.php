@@ -8,7 +8,7 @@
                         <button id="hideFilter" class="primary-button hideFilter" type="submit" name="search_menuIngredients" ><i class="fa fa-filter display-icon"></i> Hide Filter</button>
                     </div>
                     <div class="add">
-                        <form action="<?php echo URL; ?>menuIngredient/addMenuIngredient" method="POST">
+                        <form action="<?php echo URL; ?>menuIngredients/addMenuIngredient" method="POST">
                             <button class="primary-button" type="submit" name="submit_add_menuIngredient"><i class="fas fa-plus-circle display-icon"></i>Add</button>
                         </form> 
                     </div>
@@ -19,7 +19,7 @@
             <div class="filter-header">
                 <div class="title filter-title">Filters </div>
             </div>
-            <form action="<?php echo URL; ?>menuIngredient/index" method="POST">
+            <form action="<?php echo URL; ?>menuIngredients/index" method="POST">
                 <div class="container">
                     <div class="row">
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 input-item" >
@@ -76,7 +76,7 @@
                     <td class="td-small"><?php if (isset($menuIngredient->unit)) echo htmlspecialchars($menuIngredient->unit, ENT_QUOTES, 'UTF-8'); ?></td>
                     <td class="td-small"><?php if (isset($menuIngredient->archived)) echo htmlspecialchars($menuIngredient->archived, ENT_QUOTES, 'UTF-8'); ?></td>
                     <td>
-                        <a class="list-action" href="<?php echo URL . 'menuIngredient/editmenuingredient/' . htmlspecialchars($menuIngredient->id, ENT_QUOTES, 'UTF-8'); ?>"><i class="fas fa-edit display-icon"></i></a>
+                        <a class="list-action" href="<?php echo URL . 'menuIngredients/editmenuingredient/' . htmlspecialchars($menuIngredient->id, ENT_QUOTES, 'UTF-8'); ?>"><i class="fas fa-edit display-icon"></i></a>
                     </td>
                 </tr>
             <?php } ?>

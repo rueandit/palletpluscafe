@@ -75,7 +75,7 @@
             <tbody>
             <?php foreach ($ingredients as $ingredient) { ?>
                 <tr>
-                    <td class="menu-thumbnail"><img src="<?php echo URL; ?>img/bf1.jpg" class="menu-thumbnail"/></td>
+                    <td class="menu-thumbnail"><img src="<?php if($ingredient->imageFileName == "") {$filename = "no-image.png";} else {$filename = $ingredient->imageFileName;} echo URL . "img/" . $filename; ?>" class="menu-thumbnail"/></td>
                     <td><?php if (isset($ingredient->name)) echo htmlspecialchars($ingredient->name, ENT_QUOTES, 'UTF-8'); ?></td>
                     <td class="td-small"><?php if (isset($ingredient->description)) echo htmlspecialchars($ingredient->description, ENT_QUOTES, 'UTF-8'); ?></td>
                     <td class="td-small"><?php if (isset($ingredient->amount)) echo htmlspecialchars($ingredient->amount, ENT_QUOTES, 'UTF-8'); ?></td>

@@ -3,7 +3,7 @@
             <div class="title"><i class="fas fa-shopping-bag display-icon"></i>Add Ingredient</div>
         </div>
         <div class="add-edit" id="add-edit">
-                <form action="<?php echo URL; ?>ingredients/submitIngredient" method="POST">
+                <form action="<?php echo URL; ?>ingredients/submitIngredient" method="POST" enctype="multipart/form-data">
                     <div class="container">
                         <div class="row">
                             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 input-item" >
@@ -35,15 +35,7 @@
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-3  col-lg-3 input-item">
                                 <div><label >Photo</label></div>
-                                <div>
-                                    <select id="imageId" name="imageId" value="">
-                                    <?php foreach ($images as $image) { ?>
-                                        <option 
-                                        value="<?php if (isset($image->id)) echo htmlspecialchars($image->id, ENT_QUOTES, 'UTF-8'); ?>">
-                                        <?php if (isset($image->description)) echo htmlspecialchars($image->description, ENT_QUOTES, 'UTF-8'); ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
+                                <div><input type="file" name="fileToUpload" id="fileToUpload" accept=".png,.jpg,.jpeg,.gif" required/></div>
                             </div>
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 input-item input-button">

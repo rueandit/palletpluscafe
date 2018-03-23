@@ -42,6 +42,7 @@ class Model
                 ON customer_table.id = orders_log.tableId
                 INNER JOIN users
                 ON users.username = orders_log.modifiedBy
+                ORDER BY orders_log.createdDate DESC
                 ";
         $query = $this->db->prepare($sql);
         $query->execute();
@@ -85,8 +86,9 @@ class Model
                 ON users.username = orders_log.modifiedBy
                 WHERE (".$menuName." IS NULL OR menu.menuName LIKE '%".$nqmenuName."%')
                     AND (".$status." IS NULL OR orders.status LIKE '%".$nqstatus."%')
-                    AND (".$createdDate." IS NULL OR orders_log.createdDate = ".$createdDate.")
+                    AND (".$createdDate." IS NULL OR CAST(orders_log.createdDate AS DATE) = ".$createdDate.")
                     AND (".$tableId." IS NULL OR orders.tableId = ".$tableId.")
+                ORDER BY orders_log.createdDate DESC
                 ";
         $query = $this->db->prepare($sql);
 
@@ -143,8 +145,8 @@ class Model
                     AND (".$status." IS NULL OR orders.status LIKE '%".$nqstatus."%')
                     AND (".$paid." IS NULL OR orders.paid = ".$paid.")
                     AND (".$cash." IS NULL OR orders.cash = ".$cash.")
-                    AND (".$createdDate." IS NULL OR orders_log.createdDate = ".$createdDate.")
-                    AND (".$modifiedDate." IS NULL OR orders_log.modifiedDate = ".$modifiedDate.")
+                    AND (".$createdDate." IS NULL OR CAST(orders_log.createdDate AS DATE)= ".$createdDate.")
+                    AND (".$modifiedDate." IS NULL OR CAST(orders_log.modifiedDate AS DATE) = ".$modifiedDate.")
                     AND (".$modifiedBy." IS NULL OR orders_log.modifiedBy = ".$modifiedBy.")
                     AND (".$tableId." IS NULL OR orders.tableId = ".$tableId.")
                     AND (".$archived." IS NULL OR orders.archived = ".$archived.")      
