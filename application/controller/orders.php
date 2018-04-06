@@ -23,6 +23,7 @@ class Orders extends Controller
         $tables = $this->model->getAllTables();
         $menus = $this->model->getAllMenus();
         $_SESSION['createdDate'] = date("Y-m-d");
+        $_SESSION['modifiedDate'] = date("Y-m-d");
         
         if (isset($_POST["submit_search_order"])) {
                 $tableId = $_POST["tableId"];
@@ -31,7 +32,7 @@ class Orders extends Controller
                 $paid = $_POST["paid"];
                 $cash = $_POST["cash"];
                 $createdDate = '"'.$_POST["createdDate"].'"';
-                $modifiedDate = $_POST["modifiedDate"];
+                $modifiedDate = '"'.$_POST["modifiedDate"].'"';
                 $modifiedBy = $_POST["modifiedBy"];
                 $archived = $_POST["archived"];
 
@@ -54,6 +55,7 @@ class Orders extends Controller
                 $menuName = $_POST["menuName"];  
                 $status = $_POST["status"];
                 $createdDate = $_POST["createdDate"];
+                $modifiedDate = $_POST["modifiedDate"];
                 
             $orders = $this->model->getViewFilteredOrders(
                 $tableId,
@@ -67,7 +69,8 @@ class Orders extends Controller
             $menuName = '';  
             $status = '';
             $createdDate = date("Y-m-d");
-
+            $modifiedDate = date("Y-m-d");
+            
             $orders = $this->model->getViewFilteredOrders(
                 $tableId,
                 $menuName,
@@ -366,7 +369,8 @@ class Orders extends Controller
 
     public function ajaxUpdateOrderStatus(){
         Helper::authenticate();
-        if($_POST["status"] == OrderStatus::complete){
+        echo($_POST["status"]);
+        if($_POST["status"] == OrderStatus::processing){
             $continue = $this->model->updateIngredientsInventory($_POST["id"]);
         }
         else{

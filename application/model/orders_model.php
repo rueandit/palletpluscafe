@@ -405,11 +405,15 @@ class Model
                 INNER JOIN orders_log 
                 ON orders_log.orderId = orders.id
                 WHERE orders.tableId = ".$tableId."
+                AND CAST(orders_log.createdDate AS DATE) = CAST(NOW() AS DATE)
+                AND orders_log.status != 'Cancelled'
                 GROUP BY orders.menuId
                 ";
         $query = $this->db->prepare($sql);
         $query->execute();
         
+        //echo($sql);
+
         // fetchAll() is the PDO method that gets all result rows, here in object-style because we defined this in
         // core/controller.php! If you prefer to get an associative array as the result, then do
         // $query->fetchAll(PDO::FETCH_ASSOC); or change core/controller.php's PDO options to
@@ -581,4 +585,46 @@ class Model
         // $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ...
         return $query->fetch()->maxId;
     }
+
+    public function getIngredientUpdate($order_id){
+        $sql = "SELECT 
+                CASE WHEN (i.amount - m.amount) < 0 THEN 0 ELSE (i.amount - m.amount) END AS newIngredientCount,
+                i.id AS ingredientId
+                FROM orders o
+                INNER JOIN menu_ingredient m on o.menuId = m.menuId
+                INNER JOIN ingredient i on m.ingredientId = i.id
+                WHERE o.id = ". $order_id;
+        $query = $this->db->prepare($sql);
+        $query->execute();
+        return $query->fetchAll();
+    }
+    public function updateIngredientCount($ingredient_id, $new_amount){
+        
+        $sql = "UPDATE ingredient
+                SET amount = :new_amount
+                WHERE id = :ingredient_id";
+        
+        $query = $this->db->prepare($sql);
+        $parameters = array(
+            ':new_amount' => $new_amount, 
+            ':ingredient_id' => $ingredient_id
+            );
+        // useful for debugging: you can see the SQL behind above construction by using:
+        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        $query->execute($parameters);
+    }
+    public function updateIngredientsInventory($order_id){
+        $orderDetails = $this->getIngredientUpdate($order_id);
+
+        if(count($orderDetails) > 0){
+            foreach($orderDetails as $orderDetail) {
+                if (isset($orderDetail->ingredientId)){
+                    $this->updateIngredientCount($orderDetail->ingredientId,$orderDetail->newIngredientCount);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
 }

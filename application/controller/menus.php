@@ -106,16 +106,19 @@ class Menus extends Controller
         if (isset($_POST["submit_search_best"])) {
             $rating = "Best Seller";
             $categoryId = $_POST["category"];
+            $_SESSION["tableId"] = $_POST["tableId"];
         }
 
         if (isset($_POST["submit_search_low"])) {
             $orderBy = "ASC";
             $categoryId = $_POST["category"];
+            $_SESSION["tableId"] = $_POST["tableId"];
         }
 
         if (isset($_POST["submit_search_high"])) {
             $orderBy = "DESC";
             $categoryId = $_POST["category"];
+            $_SESSION["tableId"] = $_POST["tableId"];
         }
 
         // do getFilteredMenus() in model/model.php
